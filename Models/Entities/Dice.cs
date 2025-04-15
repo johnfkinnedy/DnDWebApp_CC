@@ -1,10 +1,11 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using System.Text.Json.Serialization;
 
 namespace DnDWebApp_CC.Models.Entities
 {
     public class Dice
     {
-        [Key]
+        [JsonIgnore]
         public int Id { get; set; }
 
         public string Size { get; set; } = string.Empty;

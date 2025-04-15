@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using System.Text.Json.Serialization;
 
 namespace DnDWebApp_CC.Models.Entities
 {
@@ -7,7 +8,7 @@ namespace DnDWebApp_CC.Models.Entities
     /// </summary>
     public class Equipment
     {
-        [Key]
+        [JsonIgnore]
         public int Id { get; set; }
 
         /// <summary>
@@ -20,6 +21,5 @@ namespace DnDWebApp_CC.Models.Entities
         /// </summary>
         public string Description { get; set; } = string.Empty; 
         
-        public ICollection<EquipmentInCharacter> UsedByCharacters { get; set; } = new List<EquipmentInCharacter>();
     }
 }

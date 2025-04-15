@@ -2,6 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Text.Json.Serialization;
 
 namespace DnDWebApp_CC.Models.Entities
 {
@@ -11,6 +12,7 @@ namespace DnDWebApp_CC.Models.Entities
     public class Background
     {
         [Key]
+        [JsonIgnore]
         public int Id { get; set; }
         /// <summary>
         /// The name of the background
@@ -40,16 +42,28 @@ namespace DnDWebApp_CC.Models.Entities
         /// will be added to the list when creating a character
         /// </summary>
         public virtual ICollection<string> Languages { get; set; } = new List<string>();
+
+        public Background()
+        {
+
+        }
     }
 
     public class SkillInBackground
     {
+        [JsonIgnore]
         public int Id { get; set; }
-        
+
+        [JsonIgnore]
         public int BackgroundId { get; set; }
+        [JsonIgnore]
         public Background? Background { get; set; }
 
+        [JsonIgnore]
         public int SkillId { get; set; }
+        bool Proficiency { get; set; } = true;
         public Skill? Skill { get; set; }
+
+        
     }
 }

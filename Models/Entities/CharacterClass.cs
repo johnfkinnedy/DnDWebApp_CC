@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using System.Text.Json.Serialization;
 
 namespace DnDWebApp_CC.Models.Entities
 {
@@ -7,7 +8,7 @@ namespace DnDWebApp_CC.Models.Entities
     /// </summary>
     public class CharacterClass
     {
-        [Key]
+        [JsonIgnore]
         public int Id { get; set; }
         /// <summary>
         /// The name of the class
@@ -51,22 +52,32 @@ namespace DnDWebApp_CC.Models.Entities
 
     public class ClassSpell
     {
-        [Key] 
+        [Key]
+        [JsonIgnore]
         public int Id { get; set; }
 
+        [JsonIgnore]
         public int ClassId { get; set; }
+        [JsonIgnore]
         public CharacterClass? CharClass { get; set; }
 
+        [JsonIgnore]
         public int SpellId { get; set; }
         public Spell? Spell { get; set; }
     }
     public class ClassSkills
     {
+        [JsonIgnore]
         public int Id { get; set; }
+        [JsonIgnore]
         public int ClassId { get; set; }
+        [JsonIgnore]
         public CharacterClass? CharClass { get; set; }
-        
+
+        [JsonIgnore]
         public int SkillId { get; set; }
+        bool Proficiency { get; set; } = true;
         public Skill? Skill { get; set; }
+       
     }
 }

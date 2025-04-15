@@ -1,8 +1,12 @@
 ﻿using DnDWebApp_CC.Services;
+using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
 
 namespace DnDWebApp_CC.Controllers
 {
+    [EnableCors]
+    [Route("api/[controller]")]
+    [ApiController]
     public class BackgroundController : Controller
     {
         private readonly IBackgroundRepository _bgRepo;
@@ -10,10 +14,13 @@ namespace DnDWebApp_CC.Controllers
         {
             _bgRepo = backgroundRepo;
         }
-        public async Task<IActionResult> Index()
+
+        [HttpGet("all")]
+        public async Task<IActionResult> GetAll()
         {
-            var allBackgrounds = await _bgRepo.ReadAllAsync();
-            return View(allBackgrounds);
+            var backgrounds = await _bgRepo.ReadAllAsync();
+            return Ok(backgrounds);    
         }
+       
     }
 }

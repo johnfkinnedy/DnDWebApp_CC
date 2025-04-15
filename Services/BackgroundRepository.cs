@@ -16,7 +16,7 @@ namespace DnDWebApp_CC.Services
         private readonly ApplicationDbContext _db = db;
         public async Task<ICollection<Background>> ReadAllAsync()
         {
-            return await _db.Backgrounds.Include(b => b.Skills).ThenInclude(s => s.Skill).ToListAsync();
+            return await _db.Backgrounds.Include(b => b.Skills).ThenInclude(s => s.Skill).ThenInclude(s => s.BaseStat).ToListAsync();
         }
 
         public async Task<Background> CreateAsync(Background newBg)
@@ -28,7 +28,7 @@ namespace DnDWebApp_CC.Services
 
         public async Task<Background?> ReadAsync(string name)
         {
-            return await _db.Backgrounds.Include(b => b.Skills).FirstOrDefaultAsync(b => b.Name == name);
+            return await _db.Backgrounds.Include(b => b.Skills).ThenInclude(s => s.Skill).FirstOrDefaultAsync(b => b.Name == name);
         }
 
         public async Task UpdateAsync(string oldName, Background bg)

@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using System.Text.Json.Serialization;
 
 namespace DnDWebApp_CC.Models.Entities
 {
@@ -7,7 +8,7 @@ namespace DnDWebApp_CC.Models.Entities
     /// </summary>
     public class Spell
     {
-        [Key]
+        [JsonIgnore]
         public int Id { get; set; }
 
         /// <summary>
@@ -31,8 +32,6 @@ namespace DnDWebApp_CC.Models.Entities
         /// Anything above 0 typically costs a spell slot of that level to cast.
         /// </summary>
         public int SlotLevel { get; set; }
-        public ICollection<ClassSpell> UsedByClasses { get; set; } = new List<ClassSpell>();
-        public List<SpellsInCharacter> UsedByCharacters { get; set; } = new List<SpellsInCharacter>();
 
     }
 }

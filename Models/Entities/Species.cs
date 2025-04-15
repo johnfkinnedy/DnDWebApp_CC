@@ -1,10 +1,11 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using System.Text.Json.Serialization;
 
 namespace DnDWebApp_CC.Models.Entities
 {
     public class Species
     {
-        [Key]
+        [JsonIgnore]
         public int Id { get; set; }
         /// <summary>
         /// The name of the species
@@ -29,10 +30,15 @@ namespace DnDWebApp_CC.Models.Entities
 
     public class SkillsInSpecies
     {
+        [JsonIgnore]
         public int Id { get; set; }
+
+        [JsonIgnore]
         public int SpeciesId { get; set; }
+        [JsonIgnore]
         public Species? Species { get; set; }
 
+        [JsonIgnore]
         public int SkillId {  get; set; }  
         public Skill? Skill { get; set; }  
     }

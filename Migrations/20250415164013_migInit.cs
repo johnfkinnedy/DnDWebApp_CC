@@ -5,7 +5,7 @@
 namespace DnDWebApp_CC.Migrations
 {
     /// <inheritdoc />
-    public partial class MigInit : Migration
+    public partial class migInit : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -75,8 +75,7 @@ namespace DnDWebApp_CC.Migrations
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Score = table.Column<int>(type: "int", nullable: false)
+                    Name = table.Column<string>(type: "nvarchar(max)", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -360,7 +359,8 @@ namespace DnDWebApp_CC.Migrations
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     CharacterId = table.Column<int>(type: "int", nullable: false),
-                    SkillId = table.Column<int>(type: "int", nullable: false)
+                    SkillId = table.Column<int>(type: "int", nullable: false),
+                    Score = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -412,7 +412,9 @@ namespace DnDWebApp_CC.Migrations
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     CharacterId = table.Column<int>(type: "int", nullable: false),
-                    StatId = table.Column<int>(type: "int", nullable: false)
+                    StatId = table.Column<int>(type: "int", nullable: false),
+                    Proficiency = table.Column<bool>(type: "bit", nullable: false),
+                    Score = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {

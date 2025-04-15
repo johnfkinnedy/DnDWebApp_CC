@@ -11,8 +11,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace DnDWebApp_CC.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20250415130717_MigInit")]
-    partial class MigInit
+    [Migration("20250415164013_migInit")]
+    partial class migInit
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -352,6 +352,9 @@ namespace DnDWebApp_CC.Migrations
                     b.Property<int>("CharacterId")
                         .HasColumnType("int");
 
+                    b.Property<int>("Score")
+                        .HasColumnType("int");
+
                     b.Property<int>("SkillId")
                         .HasColumnType("int");
 
@@ -476,9 +479,6 @@ namespace DnDWebApp_CC.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("Score")
-                        .HasColumnType("int");
-
                     b.HasKey("Id");
 
                     b.ToTable("Stats");
@@ -493,6 +493,12 @@ namespace DnDWebApp_CC.Migrations
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<int>("CharacterId")
+                        .HasColumnType("int");
+
+                    b.Property<bool>("Proficiency")
+                        .HasColumnType("bit");
+
+                    b.Property<int>("Score")
                         .HasColumnType("int");
 
                     b.Property<int>("StatId")
@@ -558,7 +564,7 @@ namespace DnDWebApp_CC.Migrations
                         .HasForeignKey("CharClassId");
 
                     b.HasOne("DnDWebApp_CC.Models.Entities.Skill", "Skill")
-                        .WithMany("UsedByClasses")
+                        .WithMany()
                         .HasForeignKey("SkillId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -575,7 +581,7 @@ namespace DnDWebApp_CC.Migrations
                         .HasForeignKey("CharClassId");
 
                     b.HasOne("DnDWebApp_CC.Models.Entities.Spell", "Spell")
-                        .WithMany("UsedByClasses")
+                        .WithMany()
                         .HasForeignKey("SpellId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -613,7 +619,7 @@ namespace DnDWebApp_CC.Migrations
                         .IsRequired();
 
                     b.HasOne("DnDWebApp_CC.Models.Entities.Equipment", "Equipment")
-                        .WithMany("UsedByCharacters")
+                        .WithMany()
                         .HasForeignKey("EquipmentId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -643,7 +649,7 @@ namespace DnDWebApp_CC.Migrations
                         .IsRequired();
 
                     b.HasOne("DnDWebApp_CC.Models.Entities.Skill", "Skill")
-                        .WithMany("UsedByBackgrounds")
+                        .WithMany()
                         .HasForeignKey("SkillId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -662,7 +668,7 @@ namespace DnDWebApp_CC.Migrations
                         .IsRequired();
 
                     b.HasOne("DnDWebApp_CC.Models.Entities.Skill", "Skill")
-                        .WithMany("UsedByCharacters")
+                        .WithMany()
                         .HasForeignKey("SkillId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -675,7 +681,7 @@ namespace DnDWebApp_CC.Migrations
             modelBuilder.Entity("DnDWebApp_CC.Models.Entities.SkillsInSpecies", b =>
                 {
                     b.HasOne("DnDWebApp_CC.Models.Entities.Skill", "Skill")
-                        .WithMany("UsedBySpecies")
+                        .WithMany()
                         .HasForeignKey("SkillId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -709,7 +715,7 @@ namespace DnDWebApp_CC.Migrations
                         .IsRequired();
 
                     b.HasOne("DnDWebApp_CC.Models.Entities.Spell", "Spell")
-                        .WithMany("UsedByCharacters")
+                        .WithMany()
                         .HasForeignKey("SpellId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -728,7 +734,7 @@ namespace DnDWebApp_CC.Migrations
                         .IsRequired();
 
                     b.HasOne("DnDWebApp_CC.Models.Entities.Stat", "Stat")
-                        .WithMany("UsedByCharacters")
+                        .WithMany()
                         .HasForeignKey("StatId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -761,37 +767,9 @@ namespace DnDWebApp_CC.Migrations
                     b.Navigation("Spells");
                 });
 
-            modelBuilder.Entity("DnDWebApp_CC.Models.Entities.Equipment", b =>
-                {
-                    b.Navigation("UsedByCharacters");
-                });
-
-            modelBuilder.Entity("DnDWebApp_CC.Models.Entities.Skill", b =>
-                {
-                    b.Navigation("UsedByBackgrounds");
-
-                    b.Navigation("UsedByCharacters");
-
-                    b.Navigation("UsedByClasses");
-
-                    b.Navigation("UsedBySpecies");
-                });
-
             modelBuilder.Entity("DnDWebApp_CC.Models.Entities.Species", b =>
                 {
                     b.Navigation("Skills");
-                });
-
-            modelBuilder.Entity("DnDWebApp_CC.Models.Entities.Spell", b =>
-                {
-                    b.Navigation("UsedByCharacters");
-
-                    b.Navigation("UsedByClasses");
-                });
-
-            modelBuilder.Entity("DnDWebApp_CC.Models.Entities.Stat", b =>
-                {
-                    b.Navigation("UsedByCharacters");
                 });
 #pragma warning restore 612, 618
         }

@@ -19,6 +19,19 @@ namespace DnDWebApp_CC
                 options.UseSqlServer(
                     builder.Configuration.GetConnectionString("DefaultConnection"));
             });
+
+            // Allow postman to send requests
+            builder.Services.AddCors(options =>
+            {
+                options.AddDefaultPolicy(
+                builder =>
+                {
+                    builder.WithOrigins("https://web.postman.co")
+                .AllowAnyHeader()
+                .AllowAnyMethod();
+                });
+            });
+
             builder.Services.AddScoped<DataInitializer>();
             builder.Services.AddScoped<IBackgroundRepository, BackgroundRepository>();
             builder.Services.AddScoped<ICharacterClassRepository, CharacterClassRepository>();
@@ -51,6 +64,7 @@ namespace DnDWebApp_CC
                     {
                         var initializer = services.GetRequiredService<DataInitializer>();
                         await initializer.SeedDiceAsync();
+                        await initializer.SeedStatsAsync();
                         await initializer.SeedSkillsAsync();
                         await initializer.SeedBackgroundsAsync();
                     }
@@ -65,6 +79,8 @@ namespace DnDWebApp_CC
             app.UseStaticFiles();
 
             app.UseRouting();
+
+            app.UseCors();
 
             app.UseAuthorization();
 

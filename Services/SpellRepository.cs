@@ -1,4 +1,5 @@
 ﻿using DnDWebApp_CC.Models.Entities;
+using Microsoft.EntityFrameworkCore;
 
 namespace DnDWebApp_CC.Services
 {
@@ -25,9 +26,11 @@ namespace DnDWebApp_CC.Services
             throw new NotImplementedException();
         }
 
-        public Task<ICollection<Spell>> ReadAllAsync()
+        public async Task<ICollection<Spell>> ReadAllAsync()
         {
-            throw new NotImplementedException();
+            return await _db.Spells
+                .Include(s => s.Dice)
+                    .ToListAsync();
         }
 
         public Task<Spell?> ReadAsync(int id)
