@@ -11,7 +11,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace DnDWebApp_CC.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20250415164013_migInit")]
+    [Migration("20250416015022_migInit")]
     partial class migInit
     {
         /// <inheritdoc />
@@ -74,7 +74,7 @@ namespace DnDWebApp_CC.Migrations
                     b.Property<int>("ClassId")
                         .HasColumnType("int");
 
-                    b.PrimitiveCollection<string>("Featues")
+                    b.PrimitiveCollection<string>("Features")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
@@ -294,9 +294,6 @@ namespace DnDWebApp_CC.Migrations
                     b.Property<int>("BaseStatId")
                         .HasColumnType("int");
 
-                    b.Property<int>("Bonus")
-                        .HasColumnType("int");
-
                     b.Property<string>("Description")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -304,12 +301,6 @@ namespace DnDWebApp_CC.Migrations
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
-
-                    b.Property<bool>("Proficiency")
-                        .HasColumnType("bit");
-
-                    b.Property<int>("Score")
-                        .HasColumnType("int");
 
                     b.HasKey("Id");
 
@@ -351,6 +342,9 @@ namespace DnDWebApp_CC.Migrations
 
                     b.Property<int>("CharacterId")
                         .HasColumnType("int");
+
+                    b.Property<bool>("Proficiency")
+                        .HasColumnType("bit");
 
                     b.Property<int>("Score")
                         .HasColumnType("int");
@@ -427,7 +421,10 @@ namespace DnDWebApp_CC.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int?>("DiceId")
+                    b.Property<int?>("DiceDenominationId")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("DiceToRoll")
                         .HasColumnType("int");
 
                     b.Property<string>("Name")
@@ -439,7 +436,7 @@ namespace DnDWebApp_CC.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("DiceId");
+                    b.HasIndex("DiceDenominationId");
 
                     b.ToTable("Spells");
                 });
@@ -699,11 +696,11 @@ namespace DnDWebApp_CC.Migrations
 
             modelBuilder.Entity("DnDWebApp_CC.Models.Entities.Spell", b =>
                 {
-                    b.HasOne("DnDWebApp_CC.Models.Entities.Dice", "Dice")
+                    b.HasOne("DnDWebApp_CC.Models.Entities.Dice", "DiceDenomination")
                         .WithMany()
-                        .HasForeignKey("DiceId");
+                        .HasForeignKey("DiceDenominationId");
 
-                    b.Navigation("Dice");
+                    b.Navigation("DiceDenomination");
                 });
 
             modelBuilder.Entity("DnDWebApp_CC.Models.Entities.SpellsInCharacter", b =>

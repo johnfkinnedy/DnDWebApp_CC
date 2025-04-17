@@ -30,7 +30,7 @@ namespace DnDWebApp_CC.Models.Entities
         public ICollection<string> Features { get; set; } = new List<string>();
         public ICollection<string> Languages { get; set; } = new List<string>();
 
-        //
+        /*
         public Character(CharacterClass charClass, Background bg, Species species, List<Equipment> equipment)
         {
             this.Background = bg;
@@ -83,7 +83,7 @@ namespace DnDWebApp_CC.Models.Entities
         }
 
     
-        //
+        */
     }
     public class EquipmentInCharacter
     {

@@ -2,18 +2,21 @@
 using Microsoft.EntityFrameworkCore;
 namespace DnDWebApp_CC.Services
 {
+    
     public class DataInitializer
     {
         private readonly ApplicationDbContext _db;
 
         
 
-
         public DataInitializer(ApplicationDbContext db)
         {
             _db = db;
         }
-
+        public async Task<Skill> GetSkill(string skillName)
+        {
+            return await _db.Skills.FirstAsync(s => s.Name == skillName);
+        }
         public void EnsureDataHasCorrectAttributes()
         {
             _db.Database.EnsureCreated();
@@ -196,6 +199,38 @@ namespace DnDWebApp_CC.Services
             await _db.SaveChangesAsync();
         }
         
+        public async Task SeedSpellsAsync()
+        {
+            _db.Database.EnsureCreated();
+
+            if (_db.Spells.Any())
+            {
+                return;
+            }
+
+            var allDice = await _db.Dice.ToListAsync();
+
+            var spells = new List<Spell>
+            {
+                new Spell
+                {
+                    Name = "spell one",
+                    Description = "spell one. it's the first spell in the database.",
+                    SlotLevel = 1
+
+                },
+                new Spell
+                {
+                    Name = "Fireball",
+                    Description = "A ball of flames.",
+                    DiceDenomination = allDice.Find(d => d.Size == "d6"),
+                    DiceToRoll = 2
+                }
+            };
+            await _db.Spells.AddRangeAsync(spells);
+            await _db.SaveChangesAsync();
+        }
+        
         public async Task SeedBackgroundsAsync()
         {
             _db.Database.EnsureCreated();
@@ -216,11 +251,11 @@ namespace DnDWebApp_CC.Services
                         new SkillInBackground
                         {
                             
-                            Skill = allSkills.First(s => s.Name == "Insight")
+                            Skill = await GetSkill("Insight")
                         }, 
                         new SkillInBackground
                         {
-                            Skill = allSkills.First(s => s.Name == "Religion") 
+                           Skill =  await GetSkill("Religion")
                         }
                     },
                     Languages = new List<string>
@@ -241,11 +276,11 @@ namespace DnDWebApp_CC.Services
                         new SkillInBackground
                         {
 
-                            Skill = allSkills.First(s => s.Name == "Deception")
+                            Skill = await GetSkill("Deception")
                         },
                         new SkillInBackground
                         {
-                            Skill = allSkills.First(s => s.Name == "Sleight of Hand")
+                            Skill = await GetSkill("Sleight of Hand")
                         }
                     },
                     Languages = new List<string>
@@ -266,11 +301,11 @@ namespace DnDWebApp_CC.Services
                         new SkillInBackground
                         {
 
-                            Skill = allSkills.First(s => s.Name == "Deception")
+                            Skill = await GetSkill("Deception")
                         },
                         new SkillInBackground
                         {
-                            Skill = allSkills.First(s => s.Name == "Stealth")
+                            Skill = await GetSkill("Stealth")
                         }
                     },
                     Languages = new List<string>
@@ -291,11 +326,11 @@ namespace DnDWebApp_CC.Services
                         new SkillInBackground
                         {
 
-                            Skill = allSkills.First(s => s.Name == "Animal Handling")
+                            Skill = await GetSkill("Animal Handling")
                         },
                         new SkillInBackground
                         {
-                            Skill = allSkills.First(s => s.Name == "Survival")
+                            Skill = await GetSkill("Survival")
                         }
                     },
                     Languages = new List<string>
@@ -316,11 +351,11 @@ namespace DnDWebApp_CC.Services
                         new SkillInBackground
                         {
 
-                            Skill = allSkills.First(s => s.Name == "Insight")
+                            Skill = await GetSkill("Insight")
                         },
                         new SkillInBackground
                         {
-                            Skill = allSkills.First(s => s.Name == "Persuasion")
+                            Skill = await GetSkill("Persuasion")
                         }
                     },
                     Languages = new List<string>
@@ -341,11 +376,11 @@ namespace DnDWebApp_CC.Services
                         new SkillInBackground
                         {
 
-                            Skill = allSkills.First(s => s.Name == "Medicine")
+                            Skill = await GetSkill("Medicine")
                         },
                         new SkillInBackground
                         {
-                            Skill = allSkills.First(s => s.Name == "Religion")
+                            Skill = await GetSkill("Religion")
                         }
                     },
                     Languages = new List<string>
@@ -366,11 +401,11 @@ namespace DnDWebApp_CC.Services
                         new SkillInBackground
                         {
 
-                            Skill = allSkills.First(s => s.Name == "History")
+                            Skill = await GetSkill("History")
                         },
                         new SkillInBackground
                         {
-                            Skill = allSkills.First(s => s.Name == "Persuasion")
+                            Skill = await GetSkill("Persuasion")
                         }
                     },
                     Languages = new List<string>
@@ -391,11 +426,11 @@ namespace DnDWebApp_CC.Services
                         new SkillInBackground
                         {
 
-                            Skill = allSkills.First(s => s.Name == "Athletics")
+                            Skill = await GetSkill("Athletics")
                         },
                         new SkillInBackground
                         {
-                            Skill = allSkills.First(s => s.Name == "Survival")
+                            Skill = await GetSkill("Survival")
                         }
                     },
                     Languages = new List<string>
@@ -416,11 +451,11 @@ namespace DnDWebApp_CC.Services
                         new SkillInBackground
                         {
 
-                            Skill = allSkills.First(s => s.Name == "Arcana")
+                            Skill = await GetSkill("Arcana")
                         },
                         new SkillInBackground
                         {
-                            Skill = allSkills.First(s => s.Name == "History")
+                            Skill = await GetSkill("History")
                         }
                     },
                     Languages = new List<string>
@@ -441,11 +476,11 @@ namespace DnDWebApp_CC.Services
                         new SkillInBackground
                         {
 
-                            Skill = allSkills.First(s => s.Name == "Athletics")
+                            Skill = await GetSkill("Athletics")
                         },
                         new SkillInBackground
                         {
-                            Skill = allSkills.First(s => s.Name == "Perception")
+                            Skill = await GetSkill("Perception")
                         }
                     },
                     Languages = new List<string>
@@ -466,11 +501,11 @@ namespace DnDWebApp_CC.Services
                         new SkillInBackground
                         {
 
-                            Skill = allSkills.First(s => s.Name == "Athletics")
+                            Skill = await GetSkill("Athletics")
                         },
                         new SkillInBackground
                         {
-                            Skill = allSkills.First(s => s.Name == "Intimidation")
+                            Skill = await GetSkill("Intimidation")
                         }
                     },
                     Languages = new List<string>
@@ -491,11 +526,11 @@ namespace DnDWebApp_CC.Services
                         new SkillInBackground
                         {
 
-                            Skill = allSkills.First(s => s.Name == "Sleight of Hand")
+                            Skill = await GetSkill("Sleight of Hand")
                         },
                         new SkillInBackground
                         {
-                            Skill = allSkills.First(s => s.Name == "Stealth")
+                            Skill = await GetSkill("Stealth")
                         }
                     },
                     Languages = new List<string>
@@ -509,6 +544,112 @@ namespace DnDWebApp_CC.Services
                 }
             };
             await _db.Backgrounds.AddRangeAsync(backgrounds);
+            await _db.SaveChangesAsync();
+        }
+
+        public async Task SeedSpeciesAsync()
+        {
+            _db.Database.EnsureCreated();
+            if (_db.Species.Any())
+            {
+                return;
+            }
+
+            var allSkills = await _db.Skills.ToListAsync();
+
+            var species = new List<Species>
+            {
+                new Species
+                {
+                    Name = "Human",
+                    Description = "Featherless Biped",
+                    Languages = new List<string>{ "Common", "Undercommon"},
+                    Skills = new List<SkillsInSpecies>{ new SkillsInSpecies { Skill = await GetSkill("Athletics") }, new SkillsInSpecies { Skill = await GetSkill("Stealth") } }
+
+                },
+                new Species
+                {
+                    Name = "Elf",
+                    Description = "Featherless Longer Biped",
+                    Languages = new List<string>{ "Common", "Elvish"},
+                    Skills = new List<SkillsInSpecies>{ new SkillsInSpecies { Skill = await GetSkill("Deception") }, new SkillsInSpecies { Skill = await GetSkill("Persuasion") } }
+
+                }
+            };
+            await _db.Species.AddRangeAsync(species);
+            await _db.SaveChangesAsync();
+        }
+
+        public async Task SeedClassesAsync()
+        {
+            _db.Database.EnsureCreated();
+
+            if (_db.CharacterClasses.Any())
+            {
+                return;
+            }
+
+            var allSkills = await _db.Skills.ToListAsync();
+            var allDice = await _db.Dice.ToListAsync();
+            var allSpells = await _db.Spells.ToListAsync();
+            Console.WriteLine(allSpells.Count);
+            //name, description, hitdice, skills, features
+            // spellcaster bool, spells?
+            var classes = new List<CharacterClass>
+            {
+                new CharacterClass
+                {
+                    Name = "Fighter",
+                    Description = "fights stuff",
+                    HitDice = allDice.First(d => d.Size == "d10"),
+                    Skills = new List<ClassSkills>
+                    {
+                        new ClassSkills
+                        {
+                            Skill = await GetSkill("Nature")
+                        },
+                        new ClassSkills
+                        {
+                            Skill = await GetSkill("Insight")
+                        }
+                    },
+                    Features = new List<String>{"Feature one", "Feature two"},
+                    Proficiencies = new List<String>{"Not good at anything", "At all"},
+                    Spellcaster = false
+                },
+                new CharacterClass
+                {
+                    Name = "Cleric",
+                    Description = "heals stuff",
+                    HitDice = allDice.First(d => d.Size == "d6"),
+                    Skills = new List<ClassSkills>
+                    {
+                        new ClassSkills
+                        {
+                            Skill = await GetSkill("Religion")
+                        },
+                        new ClassSkills
+                        {
+                            Skill = await GetSkill("Perception")
+                        }
+                    },
+                    Features = new List<String>{"Feature one", "Feature two"},
+                    Proficiencies = new List<String>{"good at healing", "not much else"},
+                    Spellcaster = true,
+                    Spells = new List<ClassSpell>
+                    {
+                        new ClassSpell
+                        {
+                            Spell = allSpells.First(s => s.Id == 1)
+                        },
+                        new ClassSpell
+                        {
+                            Spell = allSpells.First(s => s.Id == 2)
+                        }
+                    }
+                }
+            };
+            await _db.CharacterClasses.AddRangeAsync(classes);
             await _db.SaveChangesAsync();
         }
     }

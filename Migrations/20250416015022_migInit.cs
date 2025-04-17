@@ -113,15 +113,16 @@ namespace DnDWebApp_CC.Migrations
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Description = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    DiceId = table.Column<int>(type: "int", nullable: true),
+                    DiceDenominationId = table.Column<int>(type: "int", nullable: true),
+                    DiceToRoll = table.Column<int>(type: "int", nullable: true),
                     SlotLevel = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Spells", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Spells_Dice_DiceId",
-                        column: x => x.DiceId,
+                        name: "FK_Spells_Dice_DiceDenominationId",
+                        column: x => x.DiceDenominationId,
                         principalTable: "Dice",
                         principalColumn: "Id");
                 });
@@ -134,10 +135,7 @@ namespace DnDWebApp_CC.Migrations
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Description = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Proficiency = table.Column<bool>(type: "bit", nullable: false),
-                    BaseStatId = table.Column<int>(type: "int", nullable: false),
-                    Score = table.Column<int>(type: "int", nullable: false),
-                    Bonus = table.Column<int>(type: "int", nullable: false)
+                    BaseStatId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -165,7 +163,7 @@ namespace DnDWebApp_CC.Migrations
                     BackgroundId = table.Column<int>(type: "int", nullable: false),
                     ProficiencyBonus = table.Column<int>(type: "int", nullable: false),
                     Level = table.Column<int>(type: "int", nullable: false),
-                    Featues = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Features = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Languages = table.Column<string>(type: "nvarchar(max)", nullable: false)
                 },
                 constraints: table =>
@@ -360,7 +358,8 @@ namespace DnDWebApp_CC.Migrations
                         .Annotation("SqlServer:Identity", "1, 1"),
                     CharacterId = table.Column<int>(type: "int", nullable: false),
                     SkillId = table.Column<int>(type: "int", nullable: false),
-                    Score = table.Column<int>(type: "int", nullable: false)
+                    Score = table.Column<int>(type: "int", nullable: false),
+                    Proficiency = table.Column<bool>(type: "bit", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -534,9 +533,9 @@ namespace DnDWebApp_CC.Migrations
                 column: "SpeciesId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Spells_DiceId",
+                name: "IX_Spells_DiceDenominationId",
                 table: "Spells",
-                column: "DiceId");
+                column: "DiceDenominationId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_SpellsInCharacter_CharacterId",

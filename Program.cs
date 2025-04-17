@@ -65,8 +65,11 @@ namespace DnDWebApp_CC
                         var initializer = services.GetRequiredService<DataInitializer>();
                         await initializer.SeedDiceAsync();
                         await initializer.SeedStatsAsync();
+                        await initializer.SeedSpellsAsync();
                         await initializer.SeedSkillsAsync();
+                        await initializer.SeedSpeciesAsync();
                         await initializer.SeedBackgroundsAsync();
+                        await initializer.SeedClassesAsync();
                     }
                     catch (Exception ex)
                     {

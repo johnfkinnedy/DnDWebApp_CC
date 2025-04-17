@@ -29,7 +29,7 @@ namespace DnDWebApp_CC.Services
         public async Task<ICollection<Spell>> ReadAllAsync()
         {
             return await _db.Spells
-                .Include(s => s.Dice)
+                .Include(s => s.DiceDenomination)
                     .ToListAsync();
         }
 

@@ -10,7 +10,6 @@ namespace DnDWebApp_CC.Models.Entities
 
         public string Size { get; set; } = string.Empty;
         public int NumberToRoll { get; set; }
-        public ICollection<DiceInSpells> UsedInSpells = new List<DiceInSpells>();
 
         public Dice(string size)
         {
