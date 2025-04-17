@@ -26,14 +26,17 @@ namespace DnDWebApp_CC.Services
             return newBg;
         }
 
-        public async Task<Background?> ReadAsync(string name)
+        public async Task<Background?> ReadAsync(int id)
         {
-            return await _db.Backgrounds.Include(b => b.Skills).ThenInclude(s => s.Skill).FirstOrDefaultAsync(b => b.Name == name);
+            return await _db.Backgrounds
+                .Include(b => b.Skills)
+                .ThenInclude(s => s.Skill)
+                .FirstOrDefaultAsync(b => b.Id == id);
         }
 
-        public async Task UpdateAsync(string oldName, Background bg)
+        public async Task UpdateAsync(int oldId, Background bg)
         {
-            Background? bgToUpdate = await ReadAsync(oldName);
+            Background? bgToUpdate = await ReadAsync(oldId);
             if (bgToUpdate != null)
             {
                 bgToUpdate = bg;
@@ -41,9 +44,9 @@ namespace DnDWebApp_CC.Services
             }
         }
 
-        public async Task DeleteAsync(string name)
+        public async Task DeleteAsync(int id)
         {
-            Background? bgToDelete = await ReadAsync(name);
+            Background? bgToDelete = await ReadAsync(id);
             if (bgToDelete != null)
             {
                 _db.Backgrounds.Remove(bgToDelete);

@@ -11,6 +11,9 @@ namespace DnDWebApp_CC.Models.Entities
     /// </summary>
     public class Background
     {
+        /// <summary>
+        /// unique identifier for backgrounds. ignored in json requests
+        /// </summary>
         [Key]
         [JsonIgnore]
         public int Id { get; set; }
@@ -49,19 +52,42 @@ namespace DnDWebApp_CC.Models.Entities
         }
     }
 
+    /// <summary>
+    /// Associative class for skills used by backgrounds
+    /// </summary>
     public class SkillInBackground
     {
+        /// <summary>
+        /// ID of the associative class
+        /// </summary>
         [JsonIgnore]
         public int Id { get; set; }
 
+        /// <summary>
+        /// ID of the background
+        /// </summary>
         [JsonIgnore]
         public int BackgroundId { get; set; }
+        /// <summary>
+        /// Background, if it exists
+        /// </summary>
         [JsonIgnore]
         public Background? Background { get; set; }
 
+
+        /// <summary>
+        /// ID of the skill
+        /// </summary>
         [JsonIgnore]
         public int SkillId { get; set; }
+
+        /// <summary>
+        /// Sets that the background has proficiency with the skill (bonus to checks for character w/ the background
+        /// </summary>
         bool Proficiency { get; set; } = true;
+        /// <summary>
+        /// The skill, if it exists
+        /// </summary>
         public Skill? Skill { get; set; }
 
         

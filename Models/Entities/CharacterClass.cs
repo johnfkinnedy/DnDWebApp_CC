@@ -50,6 +50,9 @@ namespace DnDWebApp_CC.Models.Entities
         public List<string> Features { get; set; } = new List<string>();
     }
 
+    /// <summary>
+    /// Associative class for spells used by classes
+    /// </summary>
     public class ClassSpell
     {
         [Key]

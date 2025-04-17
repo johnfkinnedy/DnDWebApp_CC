@@ -30,13 +30,24 @@ namespace DnDWebApp_CC.Services
         {
             return await _db.Characters
                 .Include(c => c.Skills)
+                    .ThenInclude(s => s.Skill)
+                .Include(c => c.Skills)
+                    .ThenInclude(s => s.Score)
+                .Include(c => c.Skills)
+                    .ThenInclude(s => s.Proficiency)
                 .Include(c => c.Stats)
+                    .ThenInclude(s => s.Stat)
+                .Include(c => c.Stats)
+                    .ThenInclude(s => s.Score)
+                .Include(c => c.Stats)
+                    .ThenInclude(s => s.Proficiency)
                 .Include(c => c.Spells)
                 .Include(c => c.Class)
                 .Include(c => c.Background)
                 .Include(c => c.Species)
                 .Include(c => c.SecondClass)
                 .Include(c => c.Equipment)
+                    .ThenInclude(e => e.Equipment)
                 .ToListAsync();
         }
 

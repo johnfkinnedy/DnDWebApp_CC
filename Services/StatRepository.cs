@@ -23,5 +23,34 @@ namespace DnDWebApp_CC.Services
         {
            return await _db.Stats.FindAsync(id);
         }
+        public async Task UpdateAsync(int oldId, Stat updatedStat)
+        {
+            Stat? statToUpdate = await ReadAsync(oldId);
+            if (statToUpdate != null)
+            {
+                statToUpdate.Id = updatedStat.Id;
+                statToUpdate.Name = updatedStat.Name;
+                await _db.SaveChangesAsync();
+            }
+
+        }
+        public async Task<Stat> CreateAsync(Stat newStat)
+        {
+            await _db.Stats.AddAsync(newStat);
+            await _db.SaveChangesAsync();
+            return newStat;
+        }
+       
+        
+        public async Task DeleteAsync(int id)
+        {
+            Stat? statToDelete = await ReadAsync(id);
+            if (statToDelete != null)
+            {
+                _db.Stats.Remove(statToDelete);
+                await _db.SaveChangesAsync();
+            }
+        }
+
     }
 }
