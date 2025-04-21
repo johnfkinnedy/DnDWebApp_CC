@@ -7,9 +7,9 @@ namespace DnDWebApp_CC.Services
     {
         Task<ICollection<Background>> ReadAllAsync();
         Task<Background> CreateAsync(Background newBg);
-        Task<Background?> ReadAsync(string name);
-        Task UpdateAsync(string oldName, Background bg);
-        Task DeleteAsync(string name);
+        Task<Background?> ReadAsync(int id);
+        Task UpdateAsync(int oldId, Background bg);
+        Task DeleteAsync(int id);
     }
     public class BackgroundRepository(ApplicationDbContext db) : IBackgroundRepository
     {

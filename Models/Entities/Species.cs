@@ -28,18 +28,36 @@ namespace DnDWebApp_CC.Models.Entities
         public List<string> Languages { get; set; } = new List<string>();
     }
 
+    /// <summary>
+    /// Associative class for skills used by Species
+    /// </summary>
     public class SkillsInSpecies
     {
+        /// <summary>
+        /// Unique ID for association
+        /// </summary>
         [JsonIgnore]
         public int Id { get; set; }
 
+        /// <summary>
+        /// The ID of the species
+        /// </summary>
         [JsonIgnore]
         public int SpeciesId { get; set; }
+        /// <summary>
+        /// Species object
+        /// </summary>
         [JsonIgnore]
         public Species? Species { get; set; }
-
+        
+        /// <summary>
+        /// The ID of the skill
+        /// </summary>
         [JsonIgnore]
         public int SkillId {  get; set; }  
+        /// <summary>
+        /// Skill object
+        /// </summary>
         public Skill? Skill { get; set; }  
     }
 }

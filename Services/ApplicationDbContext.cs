@@ -12,6 +12,8 @@ namespace DnDWebApp_CC.Services
 
         // public DbSet<class> Name => Set<class
 
+        //Gulp.
+
         public DbSet<Stat> Stats => Set<Stat>();
         public DbSet<Dice> Dice => Set<Dice>();
         public DbSet<Skill> Skills => Set<Skill>();

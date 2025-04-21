@@ -16,31 +16,52 @@ namespace DnDWebApp_CC.Services
     {
         private readonly ApplicationDbContext _db = db;
 
-        public Task<CharacterClass> CreateAsync(CharacterClass newClass)
+        public async Task<CharacterClass> CreateAsync(CharacterClass newClass)
         {
-            throw new NotImplementedException();
+            await _db.CharacterClasses.AddAsync(newClass);
+            await _db.SaveChangesAsync();
+            return newClass;
+
         }
 
-        public Task DeleteAsync(int id)
+        public async Task DeleteAsync(int id)
         {
-            throw new NotImplementedException();
+            CharacterClass? classToDelete = await ReadAsync(id);
+            if (classToDelete != null)
+            {
+                _db.CharacterClasses.Remove(classToDelete);
+                await _db.SaveChangesAsync();
+            }
         }
 
         public async Task<ICollection<CharacterClass>> ReadAllAsync()
         {
             return await _db.CharacterClasses.Include(c => c.Skills)
                 .Include(c => c.Spells)
+                    .ThenInclude(s => s.Spell)
+                .Include(c => c.Skills)
+                    .ThenInclude(s => s.Skill)
                 .ToListAsync();
         }
 
-        public Task<CharacterClass?> ReadAsync(int id)
+        public async Task<CharacterClass?> ReadAsync(int id)
         {
-            throw new NotImplementedException();
+            return await _db.CharacterClasses.Include(c => c.Skills)
+                .Include(c => c.Spells)
+                    .ThenInclude(s => s.Spell)
+                .Include(c => c.Skills)
+                    .ThenInclude(s => s.Skill)
+                .FirstOrDefaultAsync(c => c.Id == id);
         }
 
-        public Task UpdateAsync(int oldId, CharacterClass characterClass)
+        public async Task UpdateAsync(int oldId, CharacterClass characterClass)
         {
-            throw new NotImplementedException();
+            CharacterClass? classToUpdate = await ReadAsync(oldId);
+            if (classToUpdate != null)
+            {
+                classToUpdate = characterClass;
+                await _db.SaveChangesAsync();
+            }
         }
     }
 }

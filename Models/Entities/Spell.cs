@@ -25,7 +25,14 @@ namespace DnDWebApp_CC.Models.Entities
         /// Optional damage that the spell deals, in an <see cref="int"/> amount of <see cref="Dice"/>
         /// </summary>
         public Dice? DiceDenomination { get; set; }
+        /// <summary>
+        /// The dice amount to roll (redundant)
+        /// </summary>
         public int? DiceToRoll { get; set; }
+
+        /// <summary>
+        /// Association list; Dice used by the spells (i dont think i need this)
+        /// </summary>
         public ICollection<DiceInSpells> UsedInSpells = new List<DiceInSpells>();
 
 
