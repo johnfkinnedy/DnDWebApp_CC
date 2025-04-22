@@ -12,6 +12,8 @@ namespace DnDWebApp_CC.Services
         Task DeleteAsync(int id);
     }
 
+    //USER-FACING:
+    //CREATE, READ, READ-ALL, UPDATE, DELETE
     public class SpellRepository(ApplicationDbContext db) : ISpellRepository
     {
         private readonly ApplicationDbContext _db = db;
@@ -21,10 +23,7 @@ namespace DnDWebApp_CC.Services
             throw new NotImplementedException();
         }
 
-        public Task DeleteAsync(int id)
-        {
-            throw new NotImplementedException();
-        }
+        
 
         public async Task<ICollection<Spell>> ReadAllAsync()
         {
@@ -33,14 +32,37 @@ namespace DnDWebApp_CC.Services
                     .ToListAsync();
         }
 
-        public Task<Spell?> ReadAsync(int id)
+        public async Task<Spell?> ReadAsync(int id)
         {
-            throw new NotImplementedException();
+            return await _db.Spells
+                            .Include(s => s.DiceDenomination)
+                                .FirstOrDefaultAsync(s => s.Id == id);
         }
 
-        public Task UpdateAsync(int oldId, Spell spell)
+        public async Task UpdateAsync(int oldId, Spell spell)
         {
-            throw new NotImplementedException();
+            Spell? spellToUpdate = await ReadAsync(oldId);
+            if (spellToUpdate != null)
+            {
+                spellToUpdate.Id = spell.Id;
+                spellToUpdate.Name = spell.Name;
+                spellToUpdate.Description = spell.Description;
+                spellToUpdate.DiceDenomination = spell.DiceDenomination;
+                spellToUpdate.DiceToRoll = spell.DiceToRoll;
+                spellToUpdate.SlotLevel = spell.SlotLevel;
+                await _db.SaveChangesAsync();
+            }
+        }
+
+        public async Task DeleteAsync(int id)
+        {
+            Spell? spellToDelete = await ReadAsync(id);
+            if (spellToDelete != null)
+            {
+                _db.Spells.Remove(spellToDelete);
+                await _db.SaveChangesAsync();
+            }
         }
     }
+
 }

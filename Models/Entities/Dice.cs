@@ -16,20 +16,15 @@ namespace DnDWebApp_CC.Models.Entities
         /// </summary>
         public string Size { get; set; } = string.Empty;
 
-        /// <summary>
-        /// The number of dice to roll
-        /// </summary>
-        public int NumberToRoll { get; set; }
 
        /// <summary>
        /// Constructor for dice
        /// </summary>
        /// <param name="size">The size of the <see cref="Dice"/></param>
        /// <param name="numToRoll">The number of <see cref="Dice"/> to roll</param>
-        public Dice(string size, int numToRoll)
+        public Dice(string size)
         {
             this.Size = size;
-            this.NumberToRoll = numToRoll;
         }
     }
     /// <summary>

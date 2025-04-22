@@ -1,5 +1,6 @@
 ﻿using DnDWebApp_CC.Models.Entities;
 using DnDWebApp_CC.Services;
+using Microsoft.EntityFrameworkCore;
 
 namespace DnDWebApp_CC.Services
 {
@@ -12,33 +13,48 @@ namespace DnDWebApp_CC.Services
         Task DeleteAsync(int id);
     }
 
+    //USER-FACING:
+    //CREATE, READ, READ-ALL, UPDATE, DELETE
     public class EquipmentRepository(ApplicationDbContext db) : IEquipmentRepository
     {
         private readonly ApplicationDbContext _db = db;
 
-        public Task<Equipment> CreateAsync(Equipment equipment)
+        public async Task<Equipment> CreateAsync(Equipment equipment)
         {
-            throw new NotImplementedException();
+            await _db.Equipment.AddAsync(equipment);
+            await _db.SaveChangesAsync();
+            return equipment;
         }
 
-        public Task DeleteAsync(int id)
+        public async Task DeleteAsync(int id)
         {
-            throw new NotImplementedException();
+            Equipment? eqToDelete = await ReadAsync(id);
+            if (eqToDelete != null)
+            {
+                _db.Equipment.Remove(eqToDelete);
+                await _db.SaveChangesAsync();
+            }
         }
 
-        public Task<ICollection<Equipment>> ReadAllAsync()
+        public async Task<ICollection<Equipment>> ReadAllAsync()
         {
-            throw new NotImplementedException();
+            return await _db.Equipment.ToListAsync();
         }
 
-        public Task<Equipment?> ReadAsync(int id)
+        public async Task<Equipment?> ReadAsync(int id)
         {
-            throw new NotImplementedException();
+            return await _db.Equipment.FindAsync(id);
         }
 
-        public Task UpdateAsync(int oldId, Equipment equipment)
+        public async Task UpdateAsync(int oldId, Equipment equipment)
         {
-            throw new NotImplementedException();
+            Equipment? eqToUpdate = await ReadAsync(oldId);
+            if (eqToUpdate != null)
+            {
+                eqToUpdate.Id = equipment.Id;
+                eqToUpdate.Name = equipment.Name;
+                await _db.SaveChangesAsync();
+            }
         }
     }
 }

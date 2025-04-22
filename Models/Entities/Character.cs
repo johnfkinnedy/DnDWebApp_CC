@@ -17,7 +17,7 @@ namespace DnDWebApp_CC.Models.Entities
         /// the unique ID of the character
         /// </summary>
         [JsonIgnore]
-        public int id { get; set; }
+        public int Id { get; set; }
 
         /// <summary>
         /// Name of the character

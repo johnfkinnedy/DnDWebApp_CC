@@ -8,7 +8,15 @@ namespace DnDWebApp_CC.Services
     {
         Task<ICollection<Stat>> ReadAllAsync();
         Task<Stat?> ReadAsync(int id);
+        Task UpdateAsync(int oldId, Stat updatedStat);
+        Task DeleteAsync(int id);
+        Task<Stat> CreateAsync(Stat stat);  
     }
+    //USER-FACING:
+    // READ, READ-ALL
+
+    //BACKEND:
+    // CREATE, UPDATE, DELETE
 
     public class StatRepository(ApplicationDbContext db) : IStatRepository
     {

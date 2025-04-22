@@ -11,6 +11,11 @@ namespace DnDWebApp_CC.Services
         Task UpdateAsync(int oldId, Background bg);
         Task DeleteAsync(int id);
     }
+    //USER-FACING:
+    // READ, READ-ALL
+
+    //BACKEND:
+    // CREATE, UPDATE, DELETE
     public class BackgroundRepository(ApplicationDbContext db) : IBackgroundRepository
     {
         private readonly ApplicationDbContext _db = db;
@@ -39,7 +44,14 @@ namespace DnDWebApp_CC.Services
             Background? bgToUpdate = await ReadAsync(oldId);
             if (bgToUpdate != null)
             {
-                bgToUpdate = bg;
+                //updating each value in background
+                bgToUpdate.Id = bg.Id;
+                bgToUpdate.Name = bg.Name;
+                bgToUpdate.Description = bg.Description;
+                bgToUpdate.Features = bg.Features;
+                bgToUpdate.Languages = bg.Languages;
+                bgToUpdate.Skills = bg.Skills;
+
                 await _db.SaveChangesAsync();
             }
         }

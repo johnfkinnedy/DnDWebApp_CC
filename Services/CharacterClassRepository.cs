@@ -12,6 +12,11 @@ namespace DnDWebApp_CC.Services
         Task DeleteAsync(int id);
     }
 
+    //USER-FACING:
+    // READ, READ-ALL
+
+    //BACKEND:
+    // CREATE, UPDATE, DELETE
     public class CharacterClassRepository(ApplicationDbContext db) : ICharacterClassRepository
     {
         private readonly ApplicationDbContext _db = db;
@@ -38,7 +43,7 @@ namespace DnDWebApp_CC.Services
         {
             return await _db.CharacterClasses.Include(c => c.Skills)
                 .Include(c => c.Spells)
-                    .ThenInclude(s => s.Spell)
+                    //.ThenInclude(s => s.Spell)
                 .Include(c => c.Skills)
                     .ThenInclude(s => s.Skill)
                 .ToListAsync();
@@ -48,7 +53,7 @@ namespace DnDWebApp_CC.Services
         {
             return await _db.CharacterClasses.Include(c => c.Skills)
                 .Include(c => c.Spells)
-                    .ThenInclude(s => s.Spell)
+                    //.ThenInclude(s => s.Spell)
                 .Include(c => c.Skills)
                     .ThenInclude(s => s.Skill)
                 .FirstOrDefaultAsync(c => c.Id == id);
@@ -59,7 +64,17 @@ namespace DnDWebApp_CC.Services
             CharacterClass? classToUpdate = await ReadAsync(oldId);
             if (classToUpdate != null)
             {
-                classToUpdate = characterClass;
+                //updating each value in character class
+                classToUpdate.Id = characterClass.Id;
+                classToUpdate.Name = characterClass.Name;
+                classToUpdate.Features = characterClass.Features;
+                classToUpdate.Proficiencies = characterClass.Proficiencies;
+                classToUpdate.Skills = characterClass.Skills;
+                classToUpdate.HitDice = characterClass.HitDice;
+                classToUpdate.Spellcaster = characterClass.Spellcaster;
+                classToUpdate.Spells = characterClass.Spells;
+                classToUpdate.Description = characterClass.Description;
+
                 await _db.SaveChangesAsync();
             }
         }

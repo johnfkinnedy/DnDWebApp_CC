@@ -26,7 +26,7 @@ namespace DnDWebApp_CC.Models.Entities
         /// </summary>
         public Dice? DiceDenomination { get; set; }
         /// <summary>
-        /// The dice amount to roll (redundant)
+        /// The dice amount to roll (not redundant)
         /// </summary>
         public int? DiceToRoll { get; set; }
 
