@@ -22,7 +22,7 @@ namespace DnDWebApp_CC.Models.Entities
         /// <summary>
         /// A list of things that the character is proficient at
         /// </summary>
-        public List<string> Proficiencies = new List<String>();
+        public List<string> Proficiencies { get; set; } = new List<String>();
 
         /// <summary>
         /// The dice size that determines your pool of hit points. Just a size denomination

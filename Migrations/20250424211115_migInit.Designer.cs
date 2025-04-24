@@ -11,7 +11,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace DnDWebApp_CC.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20250416015022_migInit")]
+    [Migration("20250424211115_migInit")]
     partial class migInit
     {
         /// <inheritdoc />
@@ -55,13 +55,13 @@ namespace DnDWebApp_CC.Migrations
 
             modelBuilder.Entity("DnDWebApp_CC.Models.Entities.Character", b =>
                 {
-                    b.Property<int>("id")
+                    b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("id"));
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<int>("Age")
+                    b.Property<int?>("Age")
                         .HasColumnType("int");
 
                     b.Property<string>("Alignment")
@@ -98,7 +98,7 @@ namespace DnDWebApp_CC.Migrations
                     b.Property<int>("SpeciesId")
                         .HasColumnType("int");
 
-                    b.HasKey("id");
+                    b.HasKey("Id");
 
                     b.HasIndex("BackgroundId");
 
@@ -131,6 +131,10 @@ namespace DnDWebApp_CC.Migrations
                         .HasColumnType("int");
 
                     b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.PrimitiveCollection<string>("Proficiencies")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
@@ -203,9 +207,6 @@ namespace DnDWebApp_CC.Migrations
                         .HasColumnType("int");
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<int>("NumberToRoll")
-                        .HasColumnType("int");
 
                     b.Property<string>("Size")
                         .IsRequired()

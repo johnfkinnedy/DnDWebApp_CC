@@ -43,9 +43,10 @@ namespace DnDWebApp_CC.Services
         {
             return await _db.CharacterClasses.Include(c => c.Skills)
                 .Include(c => c.Spells)
-                    //.ThenInclude(s => s.Spell)
+                    .ThenInclude(s => s.Spell)
                 .Include(c => c.Skills)
                     .ThenInclude(s => s.Skill)
+                .Include(c => c.HitDice)
                 .ToListAsync();
         }
 
@@ -53,9 +54,10 @@ namespace DnDWebApp_CC.Services
         {
             return await _db.CharacterClasses.Include(c => c.Skills)
                 .Include(c => c.Spells)
-                    //.ThenInclude(s => s.Spell)
+                    .ThenInclude(s => s.Spell)
                 .Include(c => c.Skills)
                     .ThenInclude(s => s.Skill)
+                .Include(c => c.HitDice)
                 .FirstOrDefaultAsync(c => c.Id == id);
         }
 

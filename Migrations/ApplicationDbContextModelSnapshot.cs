@@ -131,6 +131,10 @@ namespace DnDWebApp_CC.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.PrimitiveCollection<string>("Proficiencies")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<bool>("Spellcaster")
                         .HasColumnType("bit");
 

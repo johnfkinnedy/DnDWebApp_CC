@@ -18,9 +18,11 @@ namespace DnDWebApp_CC.Services
     {
         private readonly ApplicationDbContext _db = db;
 
-        public Task<Spell> CreateAsync(Spell newSpell)
+        public async Task<Spell> CreateAsync(Spell newSpell)
         {
-            throw new NotImplementedException();
+            await _db.AddAsync(newSpell);
+            await _db.SaveChangesAsync();
+            return newSpell;
         }
 
         

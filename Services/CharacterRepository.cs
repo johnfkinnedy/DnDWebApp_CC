@@ -18,6 +18,7 @@ namespace DnDWebApp_CC.Services
     {
         private readonly ApplicationDbContext _db = db;
 
+
         public async Task<Character> CreateAsync(Character character)
         {
             await _db.Characters.AddAsync(character);
@@ -41,15 +42,14 @@ namespace DnDWebApp_CC.Services
                 .Include(c => c.Skills)
                     .ThenInclude(s => s.Skill)
                 .Include(c => c.Skills)
-                    .ThenInclude(s => s.Score)
                 .Include(c => c.Skills)
-                    .ThenInclude(s => s.Proficiency)
+                    //.ThenInclude(s => s.Proficiency)
                 .Include(c => c.Stats)
                     .ThenInclude(s => s.Stat)
                 .Include(c => c.Stats)
-                    .ThenInclude(s => s.Score)
+                   // .ThenInclude(s => s.Score)
                 .Include(c => c.Stats)
-                    .ThenInclude(s => s.Proficiency)
+                   // .ThenInclude(s => s.Proficiency)
                 .Include(c => c.Spells)
                 .Include(c => c.Class)
                 .Include(c => c.Background)

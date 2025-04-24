@@ -41,6 +41,7 @@ namespace DnDWebApp_CC
             builder.Services.AddScoped<ISpeciesRepository, SpeciesRepository>();
             builder.Services.AddScoped<ISpellRepository, SpellRepository>();
             builder.Services.AddScoped<IStatRepository, StatRepository>();
+            builder.Services.AddScoped<ICharacterRepository, CharacterRepository>();
 
             //services here
             var app = builder.Build();

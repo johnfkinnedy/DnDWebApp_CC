@@ -32,8 +32,7 @@ namespace DnDWebApp_CC.Migrations
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    Size = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    NumberToRoll = table.Column<int>(type: "int", nullable: false)
+                    Size = table.Column<string>(type: "nvarchar(max)", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -90,6 +89,7 @@ namespace DnDWebApp_CC.Migrations
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Description = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Proficiencies = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     HitDiceId = table.Column<int>(type: "int", nullable: false),
                     Spellcaster = table.Column<bool>(type: "bit", nullable: false),
                     Features = table.Column<string>(type: "nvarchar(max)", nullable: false)
@@ -152,10 +152,10 @@ namespace DnDWebApp_CC.Migrations
                 name: "Characters",
                 columns: table => new
                 {
-                    id = table.Column<int>(type: "int", nullable: false)
+                    Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Age = table.Column<int>(type: "int", nullable: false),
+                    Age = table.Column<int>(type: "int", nullable: true),
                     Alignment = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     ClassId = table.Column<int>(type: "int", nullable: false),
                     SecondClassId = table.Column<int>(type: "int", nullable: true),
@@ -168,7 +168,7 @@ namespace DnDWebApp_CC.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Characters", x => x.id);
+                    table.PrimaryKey("PK_Characters", x => x.Id);
                     table.ForeignKey(
                         name: "FK_Characters_Backgrounds_BackgroundId",
                         column: x => x.BackgroundId,
@@ -340,7 +340,7 @@ namespace DnDWebApp_CC.Migrations
                         name: "FK_EquipmentInCharacters_Characters_CharacterId",
                         column: x => x.CharacterId,
                         principalTable: "Characters",
-                        principalColumn: "id",
+                        principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
                         name: "FK_EquipmentInCharacters_Equipment_EquipmentId",
@@ -368,7 +368,7 @@ namespace DnDWebApp_CC.Migrations
                         name: "FK_SkillsInCharacters_Characters_CharacterId",
                         column: x => x.CharacterId,
                         principalTable: "Characters",
-                        principalColumn: "id",
+                        principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
                         name: "FK_SkillsInCharacters_Skills_SkillId",
@@ -394,7 +394,7 @@ namespace DnDWebApp_CC.Migrations
                         name: "FK_SpellsInCharacter_Characters_CharacterId",
                         column: x => x.CharacterId,
                         principalTable: "Characters",
-                        principalColumn: "id",
+                        principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
                         name: "FK_SpellsInCharacter_Spells_SpellId",
@@ -422,7 +422,7 @@ namespace DnDWebApp_CC.Migrations
                         name: "FK_StatsInCharacters_Characters_CharacterId",
                         column: x => x.CharacterId,
                         principalTable: "Characters",
-                        principalColumn: "id",
+                        principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
                         name: "FK_StatsInCharacters_Stats_StatId",
