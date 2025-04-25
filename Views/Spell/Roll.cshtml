@@ -1,0 +1,18 @@
+﻿@model DnDWebApp_CC.Models.Entities.Spell
+
+@{
+    ViewData["Title"] = "Roll";
+}
+
+<h1>Roll @Model.DiceToRoll@Model.DiceDenomination.Size</h1>
+<div id="mainDiv">
+</div>
+
+<button type="button" class="btn btn-success" id="btnRoll" >Roll!</button>
+
+<div id="avgDiv">
+</div>
+
+@section Scripts{
+    <script src="~/js/roll.js" type="module"></script>
+}

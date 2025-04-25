@@ -15,6 +15,7 @@ namespace DnDWebApp_CC.Controllers
             var allSpells = await _spellRepo.ReadAllAsync();
             return View(allSpells);
         }
+
         public async Task<IActionResult> Details(int id)
         {
             var spell = await _spellRepo.ReadAsync(id);
@@ -41,5 +42,20 @@ namespace DnDWebApp_CC.Controllers
             return View(spell);
         }
 
+        public async Task<IActionResult> Roll(int id)
+        {
+            Spell? spell = await _spellRepo.ReadAsync(id);
+            if(spell == null)
+            {
+                return RedirectToAction("Details", id);
+            }
+            return View(spell);
+        }
+        
+        public async Task<IActionResult> GetOneJson(int id)
+        {
+            var spell = await _spellRepo.ReadAsync(id);
+            return Json(spell);
+        }
     }
 }
