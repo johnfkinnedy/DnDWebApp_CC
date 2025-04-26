@@ -1,0 +1,40 @@
+﻿@model IEnumerable<DnDWebApp_CC.Models.Entities.CharacterClass>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+@section Styles {
+    <link rel="stylesheet" href="~/css/hoverNav.css" />
+}
+
+<body>
+    <button class="btn btn-outline-light" asp-action"Index" id="classBtnTwo">Switch class set to  1</button>
+    <button class="btn btn-outline-light" asp-action'Index2" id="classBtnOne">Switch class set to 2</button>
+
+
+    <div class="main-container" id="classSetOne" style="display:flex;">
+        @foreach (var item in Model.Where(i => i.Id > 6))
+        {
+            <div class="image-preview">
+                <img src="~/images/@(item.Name.ToLower()+".png")" alt="@item.Name picture" style="" class="classImgSetTwo" />
+                <span class="overlay">
+                    <div class="desc">
+                        <br />
+                        <br />
+                        <h1>@item.Name</h1>
+                        <p>
+                            @item.Description <br /><br />
+                        </p>
+                    </div>
+                </span>
+            </div>
+        }
+    </div>
+</body>
+
+
+@section Scripts {
+    <script src="~/lib/gsap/all.js" type="module"></script>
+    <script src="~/js/classIndex.js" type="module"></script>
+}
