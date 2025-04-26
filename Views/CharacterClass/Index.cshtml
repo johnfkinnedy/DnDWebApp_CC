@@ -5,7 +5,7 @@
 }
 
 @section Styles{
-    <link rel="stylesheet" href="~/css/hoverNav.css" />
+<link rel="stylesheet" href="~/css/hoverNav.css" />
 }
 <!--
 <p>
@@ -112,11 +112,10 @@ Can cast spells?
 
 <body>
     <div class="main-container">
-        @foreach(var item in Model)
+        @foreach (var item in Model.Where(i => i.Id <= 6))
         {
             <div class="image-preview">
                 <img src="~/images/@(item.Name.ToLower()+".png")" alt="@item.Name picture" style="" />
-                <img src="~/images/@(item.Name.ToLower()+".png")" alt="@item.Name picture" style="" class="coverImg"/>
                 <span class="overlay">
                     <div class="desc">
                         <br />
@@ -127,10 +126,25 @@ Can cast spells?
                     </div>
                 </span>
             </div>
-            
         }
-        </div>        
-
+        </div>
+    <div class="main-container">
+        @foreach (var item in Model.Where(i => i.Id >= 6))
+        {
+            <div class="image-preview">
+                <img src="~/images/@(item.Name.ToLower()+".png")" alt="@item.Name picture" style="" />
+                <span class="overlay">
+                    <div class="desc">
+                        <br />
+                        <br />
+                        <h1>@item.Name</h1>
+                        <p>@item.Description <br /><br />
+                        </p>
+                    </div>
+                </span>
+            </div>
+        }
+        </div>
 </body>
 
 
