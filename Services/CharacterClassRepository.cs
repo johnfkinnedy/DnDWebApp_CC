@@ -48,6 +48,7 @@ namespace DnDWebApp_CC.Services
                     .ThenInclude(s => s.Skill)
                 .Include(c => c.HitDice)
                 .ToListAsync();
+          
         }
 
         public async Task<CharacterClass?> ReadAsync(int id)

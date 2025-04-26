@@ -17,6 +17,10 @@ namespace DnDWebApp_CC.Services
         {
             return await _db.Skills.FirstAsync(s => s.Name == skillName);
         }
+        public async Task<Spell> GetSpell(string spellName)
+        {
+            return await _db.Spells.FirstAsync(s => s.Name.ToLower() == spellName.ToLower());
+        }
         public void EnsureDataHasCorrectAttributes()
         {
             _db.Database.EnsureCreated();
@@ -214,8 +218,10 @@ namespace DnDWebApp_CC.Services
             {
                 new Spell
                 {
-                    Name = "spell one",
-                    Description = "spell one. it's the first spell in the database.",
+                    Name = "Healing Word",
+                    Description = "You speak words of healing and recover your allies hit points by the specified dice",
+                    DiceDenomination = allDice.Find(d => d.Size == "d6"),
+                    DiceToRoll = 2,
                     SlotLevel = 1
 
                 },
@@ -223,9 +229,66 @@ namespace DnDWebApp_CC.Services
                 {
                     Name = "Fireball",
                     Description = "A ball of flames.",
-                    DiceDenomination = allDice.Find(d => d.Size == "d6"),
-                    DiceToRoll = 2
-                }
+                    DiceDenomination = allDice.Find(d => d.Size == "d8"),
+                    SlotLevel = 1,
+                    DiceToRoll = 3
+                },
+                new Spell
+                {
+                    Name = "Eldritch Blast",
+                    Description = "A crackling blast of energy, enriched with magic that is not yours to control.",
+                    DiceDenomination = allDice.Find(d => d.Size == "d10"),
+                    SlotLevel = 0,
+                    DiceToRoll = 1
+                },
+                new Spell
+                {
+                    Name = "Fire bolt",
+                    Description = "A small bolt of fire to smite your enemies",
+                    DiceDenomination = allDice.Find(d => d.Size == "d8"),
+                    DiceToRoll = 1,
+                    SlotLevel = 0
+                },
+                new Spell
+                {
+                    Name = "Arcane Lock",
+                    Description = "You touch a closed door, window, gate, chest, or other entryway, and it becomes locked for the duration.",
+                    SlotLevel = 2,                    
+                },
+                new Spell
+                {
+                    Name = "Barkskin",
+                    Description = "You touch a willing creature. Until the spell ends, the target’s skin has a rough, bark-like appearance, and the target’s AC can’t be less than 16, regardless of what kind of armor it is wearing.",
+                    SlotLevel = 2
+                },
+                new Spell
+                {
+                    Name = "Cloud of Daggers",
+                    Description = "You fill the air with spinning daggers in a cube 5 feet on each side, centered on a point you choose within range.",
+                    DiceDenomination = allDice.Find(d => d.Size == "d4"),
+                    DiceToRoll = 4,
+                    SlotLevel = 0
+                },
+                new Spell
+                {
+                    Name = "Call Lightning",
+                    Description = "You create a stormcloud, and call down a lightning strike upon your foes",
+                    DiceDenomination = allDice.Find(d => d.Size == "d10 "),
+                    DiceToRoll = 3,
+                    SlotLevel = 0
+                },
+                new Spell
+                {
+                    Name = "Revivify",
+                    Description = "You touch a creature that has died within the last minute. That creature returns to life with 1 hit point. This spell can’t return to life a creature that has died of old age, nor can it restore any missing body parts.",
+                    SlotLevel = 3
+                },
+                new Spell
+                {
+                    Name = "Armor of Agathys",
+                    Description = "A protective magical force surrounds you, manifesting as a spectral frost that covers you and your gear. You gain 5 temporary hit points for the duration. If a creature hits you with a melee attack while you have these hit points, the creature takes 5 cold damage.",
+                    SlotLevel = 0
+                },
             };
             await _db.Spells.AddRangeAsync(spells);
             await _db.SaveChangesAsync();
@@ -600,21 +663,137 @@ namespace DnDWebApp_CC.Services
                 new CharacterClass
                 {
                     Name = "Fighter",
-                    Description = "fights stuff",
+                    Description = "A master of all arms and armor",
                     HitDice = allDice.First(d => d.Size == "d10"),
                     Skills = new List<ClassSkills>
                     {
                         new ClassSkills
                         {
-                            Skill = await GetSkill("Nature")
+                            Skill = await GetSkill("Acrobatics")
+                        },
+                        new ClassSkills
+                        {
+                            Skill = await GetSkill("Athletics")
+                        },
+                        new ClassSkills
+                        {
+                            Skill = await GetSkill("Insight")
+                        },
+                        new ClassSkills
+                        {
+                            Skill = await GetSkill("Intimidation")
+                        },
+                        new ClassSkills
+                        {
+                            Skill = await GetSkill("Persuasion")
+                        },
+                        new ClassSkills
+                        {
+                            Skill = await GetSkill("Perception")
+                        },
+                        new ClassSkills
+                        {
+                            Skill = await GetSkill("Survival")
+                        }
+                    },
+                    Features = new List<String>{"Fighting Style: You gain a fighting style of your choice", "Second wind: As a bonus action, you can regain hit points equal to 1d10 + your fighter level"},
+                    Proficiencies = new List<String>{"Light, medium, and heavy armor", "Simple and Martial weapons",},
+                    Spellcaster = false
+                },
+                new CharacterClass
+                {
+                    Name = "Monk",
+                    Description = "A martial artist of supernatural focus",
+                    HitDice = allDice.First(d => d.Size == "d8"),
+                    Skills = new List<ClassSkills>
+                    {
+                        new ClassSkills
+                        {
+                            Skill = await GetSkill("Acrobatics")
+                        },
+                        new ClassSkills
+                        {
+                            Skill = await GetSkill("Religion")
+                        },
+                        new ClassSkills
+                        {
+                            Skill = await GetSkill("History")
+                        },
+                        new ClassSkills
+                        {
+                            Skill = await GetSkill("Stealth")
                         },
                         new ClassSkills
                         {
                             Skill = await GetSkill("Insight")
                         }
                     },
-                    Features = new List<String>{"Feature one", "Feature two"},
-                    Proficiencies = new List<String>{"Not good at anything", "At all"},
+                    Features = new List<String>{"Martial Arts", "Unarmored Defense"},
+                    Proficiencies = new List<String>{"Simple weapons, martial weapons with the Light property", "One type of artisan's tools or musical instrument"},
+                    Spellcaster = false
+                },
+                new CharacterClass
+                {
+                    Name = "Barbarian",
+                    Description = "A Fierce Warrior of Primal Rage",
+                    HitDice = allDice.First(d => d.Size == "d12"),
+                    Skills = new List<ClassSkills>
+                    {
+                        new ClassSkills
+                        {
+                            Skill = await GetSkill("Athletics")
+                        },
+                        new ClassSkills
+                        {
+                            Skill = await GetSkill("Intimidation")
+                        },
+                        new ClassSkills
+                        {
+                            Skill = await GetSkill("Nature")
+                        },
+                        new ClassSkills
+                        {
+                            Skill = await GetSkill("Perception")
+                        },
+                        new ClassSkills
+                        {
+                            Skill = await GetSkill("Survival")
+                        }
+                    },
+                    Features = new List<String>{"Rage", "Unarmored Defense"},
+                    Proficiencies = new List<String>{"Simple weapons, martial weapons", "Light and Medium armor", "Shields"},
+                    Spellcaster = false
+                },
+                new CharacterClass
+                {
+                    Name = "Rogue",
+                    Description = "A Dexterous Expert in Stealth and Subterfuge",
+                    HitDice = allDice.First(d => d.Size == "d8"),
+                    Skills = new List<ClassSkills>
+                    {
+                        new ClassSkills
+                        {
+                            Skill = await GetSkill("Acrobatics")
+                        },
+                        new ClassSkills
+                        {
+                            Skill = await GetSkill("Athletics")
+                        },
+                        new ClassSkills
+                        {
+                            Skill = await GetSkill("Deception")
+                        },
+                        new ClassSkills
+                        {
+                            Skill = await GetSkill("Stealth")
+                        },
+                        new ClassSkills
+                        {
+                            Skill = await GetSkill("Insight")
+                        }
+                    },
+                    Features = new List<String>{"Expertise", "Sneak Attack"},
+                    Proficiencies = new List<String>{"Simple weapons, martial weapons with the Light or Finesse property", "Thieve's tools", "Light armor"},
                     Spellcaster = false
                 },
                 new CharacterClass
@@ -640,11 +819,314 @@ namespace DnDWebApp_CC.Services
                     {
                         new ClassSpell
                         {
-                            Spell = allSpells.First(s => s.Id == 1)
+                            Spell = await GetSpell("Healing Word")
                         },
                         new ClassSpell
                         {
-                            Spell = allSpells.First(s => s.Id == 2)
+                            Spell = await GetSpell("Fireball")
+                        }
+                    }
+                },
+                new CharacterClass
+                {
+                    Name = "Bard",
+                    Description = "An Inspiring Performer of Music, Dance, and Magic",
+                    HitDice = allDice.First(d => d.Size == "d8"),
+                    Skills = new List<ClassSkills>(),
+                    Features = new List<String>{"Bardic Inspiration", "Spellcasting"},
+                    Proficiencies = new List<String>{"Simple weapons","Light Armor", "Choose 3 Musical Instrumens"},
+                    Spellcaster = true,
+                    Spells = new List<ClassSpell>
+                    {
+                        new ClassSpell
+                        {
+                            Spell = await GetSpell("Healing Word")
+                        },
+                        new ClassSpell
+                        {
+                            Spell = await GetSpell("Arcane Lock")
+                        }
+                    }
+                },
+                new CharacterClass
+                {
+                    Name = "Druid",
+                    Description = "A nature priest of primal power",
+                    HitDice = allDice.First(d => d.Size == "d8"),
+                    Skills = new List<ClassSkills>
+                    {
+                        new ClassSkills
+                        {
+                            Skill = await GetSkill("Animal Handling")
+                        },
+                        new ClassSkills
+                        {
+                            Skill = await GetSkill("Arcana")
+                        },
+                        new ClassSkills
+                        {
+                            Skill = await GetSkill("Insight")
+                        },
+                        new ClassSkills
+                        {
+                            Skill = await GetSkill("Medicine")
+                        },
+                        new ClassSkills
+                        {
+                            Skill = await GetSkill("Nature")
+                        },
+                        new ClassSkills
+                        {
+                            Skill = await GetSkill("Religion")
+                        },
+                        new ClassSkills
+                        {
+                            Skill = await GetSkill("Perception")
+                        }
+                    },
+                    Features = new List<String>{"Wild Resurgence"},
+                    Proficiencies = new List<String>{"good at healing", "not much else"},
+                    Spellcaster = true,
+                    Spells = new List<ClassSpell>
+                    {
+                        new ClassSpell
+                        {
+                            Spell = await GetSpell("Call Lightning")
+                        },
+                        new ClassSpell
+                        {
+                            Spell = await GetSpell("Barkskin")
+                        }
+                    }
+                },
+                new CharacterClass
+                {
+                    Name = "Paladin",
+                    Description = "A devout warrior of sacred oaths",
+                    HitDice = allDice.First(d => d.Size == "d10"),
+                    Skills = new List<ClassSkills>
+                    {
+                        new ClassSkills
+                        {
+                            Skill = await GetSkill("Athletics")
+                        },
+                        new ClassSkills
+                        {
+                            Skill = await GetSkill("Insight")
+                        },
+                        new ClassSkills
+                        {
+                            Skill = await GetSkill("Religion")
+                        },
+                        new ClassSkills
+                        {
+                            Skill = await GetSkill("Medicine")
+                        },
+                        new ClassSkills
+                        {
+                            Skill = await GetSkill("Intimidation")
+                        },
+                        new ClassSkills
+                        {
+                            Skill = await GetSkill("Persuasion")
+                        }
+                    },
+                    Features = new List<String>{"Spellcasting", "Weapon Mastery"},
+                    Proficiencies = new List<String>{"Simple and Martial weapons", "Light, medium, heavy armor", "Shields"},
+                    Spellcaster = true,
+                    Spells = new List<ClassSpell>
+                    {
+                        new ClassSpell
+                        {
+                            Spell = await GetSpell("Healing Word")
+                        },
+                        new ClassSpell
+                        {
+                            Spell = await GetSpell("Fire Bolt")
+                        },
+                        new ClassSpell
+                        {
+                            Spell = await GetSpell("Fireball")
+                        }
+                    }
+                },
+                new CharacterClass
+                {
+                    Name = "Ranger",
+                    Description = "A Wandering Warrior Imbued with Primal Magic",
+                    HitDice = allDice.First(d => d.Size == "d10"),
+                    Skills = new List<ClassSkills>
+                    {
+                        new ClassSkills
+                        {
+                            Skill = await GetSkill("Animal Handling")
+                        },
+                        new ClassSkills
+                        {
+                            Skill = await GetSkill("Insight")
+                        },
+                        new ClassSkills
+                        {
+                            Skill = await GetSkill("Investigation")
+                        },
+                        new ClassSkills
+                        {
+                            Skill = await GetSkill("Nature")
+                        },
+                        new ClassSkills
+                        {
+                            Skill = await GetSkill("Survival")
+                        },
+                        new ClassSkills
+                        {
+                            Skill = await GetSkill("Perception")
+                        }
+                    },
+                    Features = new List<String>{"Feature one", "Feature two"},
+                    Proficiencies = new List<String>{"Simple and Martial weapons", "Light and Medium armor", "Shields"},
+                    Spellcaster = true,
+                    Spells = new List<ClassSpell>
+                    {
+                        new ClassSpell
+                        {
+                            Spell = await GetSpell("Barkskin")
+                        },
+                        new ClassSpell
+                        {
+                            Spell = await GetSpell("Cloud of Daggers")
+                        },
+                        new ClassSpell
+                        {
+                            Spell = await GetSpell("Call Lightning")
+                        }
+                    }
+                },
+                new CharacterClass
+                {
+                    Name = "Sorcerer",
+                    Description = "A Dazzling Mage Filled with Innate Magic",
+                    HitDice = allDice.First(d => d.Size == "d6"),
+                    Skills = new List<ClassSkills>
+                    {
+                        new ClassSkills
+                        {
+                            Skill = await GetSkill("Arcana")
+                        },
+                        new ClassSkills
+                        {
+                            Skill = await GetSkill("Deception")
+                        },
+                        new ClassSkills
+                        {
+                            Skill = await GetSkill("Insight")
+                        },
+                        new ClassSkills
+                        {
+                            Skill = await GetSkill("Intimidation")
+                        },
+                        new ClassSkills
+                        {
+                            Skill = await GetSkill("Persuasion")
+                        }
+                    },
+                    Features = new List<String>{"Spellcasting", "Innate Sorcery"},
+                    Proficiencies = new List<String>{"Simple Weapons"},
+                    Spellcaster = true,
+                    Spells = new List<ClassSpell>
+                    {
+                        new ClassSpell
+                        {
+                            Spell = await GetSpell("Call Lightning")
+                        },
+                        new ClassSpell
+                        {
+                            Spell = await GetSpell("Fireball")
+                        }
+                    }
+                },
+                new CharacterClass
+                {
+                    Name = "Warlock",
+                    Description = "A warrior that draws power from a pact with an unknown entity",
+                    HitDice = allDice.First(d => d.Size == "d8"),
+                    Skills = new List<ClassSkills>
+                    {
+                        new ClassSkills
+                        {
+                            Skill = await GetSkill("Religion")
+                        },
+                        new ClassSkills
+                        {
+                            Skill = await GetSkill("Arcana")
+                        },
+                        new ClassSkills
+                        {
+                            Skill = await GetSkill("History")
+                        },
+                        new ClassSkills
+                        {
+                            Skill = await GetSkill("Investigation")
+                        }
+                    },
+                    Features = new List<String>{"Eldritch Invocations", "Pact Magic"},
+                    Proficiencies = new List<String>{"Simple Weapons", "Light armor"},
+                    Spellcaster = true,
+                    Spells = new List<ClassSpell>
+                    {
+                        new ClassSpell
+                        {
+                            Spell = await GetSpell("Eldritch Blast")
+                        },
+                        new ClassSpell
+                        {
+                            Spell = await GetSpell("Armor of Agathys")
+                        }
+                    }
+                },
+                new CharacterClass
+                {
+                    Name = "Wizard",
+                    Description = "A Scholarly Magic-User of Arcane Power",
+                    HitDice = allDice.First(d => d.Size == "d6"),
+                    Skills = new List<ClassSkills>
+                    {
+                        new ClassSkills
+                        {
+                            Skill = await GetSkill("Arcana")
+                        },
+                        new ClassSkills
+                        {
+                            Skill = await GetSkill("Insight")
+                        },
+                        new ClassSkills
+                        {
+                            Skill = await GetSkill("Investigation")
+                        },
+                        new ClassSkills
+                        {
+                            Skill = await GetSkill("History")
+                        },
+                        new ClassSkills
+                        {
+                            Skill = await GetSkill("Medicine")
+                        }
+                    },
+                    Features = new List<String>{"Spellcasting", "Ritual Adept", "Arcane Recovery"},
+                    Proficiencies = new List<String>{"Simple Weapons"},
+                    Spellcaster = true,
+                    Spells = new List<ClassSpell>
+                    {
+                        new ClassSpell
+                        {
+                            Spell = await GetSpell("Arcane Lock")
+                        },
+                        new ClassSpell
+                        {
+                            Spell = await GetSpell("Cloud of Daggers")
+                        },
+                        new ClassSpell
+                        {
+                            Spell = await GetSpell("Fireball")
                         }
                     }
                 }

@@ -47,7 +47,7 @@ namespace DnDWebApp_CC.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Backgrounds");
+                    b.ToTable("Backgrounds", (string)null);
                 });
 
             modelBuilder.Entity("DnDWebApp_CC.Models.Entities.Character", b =>
@@ -105,7 +105,7 @@ namespace DnDWebApp_CC.Migrations
 
                     b.HasIndex("SpeciesId");
 
-                    b.ToTable("Characters");
+                    b.ToTable("Characters", (string)null);
                 });
 
             modelBuilder.Entity("DnDWebApp_CC.Models.Entities.CharacterClass", b =>
@@ -142,7 +142,7 @@ namespace DnDWebApp_CC.Migrations
 
                     b.HasIndex("HitDiceId");
 
-                    b.ToTable("CharacterClasses");
+                    b.ToTable("CharacterClasses", (string)null);
                 });
 
             modelBuilder.Entity("DnDWebApp_CC.Models.Entities.ClassSkills", b =>
@@ -168,7 +168,7 @@ namespace DnDWebApp_CC.Migrations
 
                     b.HasIndex("SkillId");
 
-                    b.ToTable("ClassSkills");
+                    b.ToTable("ClassSkills", (string)null);
                 });
 
             modelBuilder.Entity("DnDWebApp_CC.Models.Entities.ClassSpell", b =>
@@ -194,7 +194,7 @@ namespace DnDWebApp_CC.Migrations
 
                     b.HasIndex("SpellId");
 
-                    b.ToTable("ClassSpells");
+                    b.ToTable("ClassSpells", (string)null);
                 });
 
             modelBuilder.Entity("DnDWebApp_CC.Models.Entities.Dice", b =>
@@ -211,7 +211,7 @@ namespace DnDWebApp_CC.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Dice");
+                    b.ToTable("Dice", (string)null);
                 });
 
             modelBuilder.Entity("DnDWebApp_CC.Models.Entities.DiceInSpells", b =>
@@ -234,7 +234,7 @@ namespace DnDWebApp_CC.Migrations
 
                     b.HasIndex("SpellId");
 
-                    b.ToTable("DiceInSpells");
+                    b.ToTable("DiceInSpells", (string)null);
                 });
 
             modelBuilder.Entity("DnDWebApp_CC.Models.Entities.Equipment", b =>
@@ -255,7 +255,7 @@ namespace DnDWebApp_CC.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Equipment");
+                    b.ToTable("Equipment", (string)null);
                 });
 
             modelBuilder.Entity("DnDWebApp_CC.Models.Entities.EquipmentInCharacter", b =>
@@ -278,7 +278,7 @@ namespace DnDWebApp_CC.Migrations
 
                     b.HasIndex("EquipmentId");
 
-                    b.ToTable("EquipmentInCharacters");
+                    b.ToTable("EquipmentInCharacters", (string)null);
                 });
 
             modelBuilder.Entity("DnDWebApp_CC.Models.Entities.Skill", b =>
@@ -304,7 +304,7 @@ namespace DnDWebApp_CC.Migrations
 
                     b.HasIndex("BaseStatId");
 
-                    b.ToTable("Skills");
+                    b.ToTable("Skills", (string)null);
                 });
 
             modelBuilder.Entity("DnDWebApp_CC.Models.Entities.SkillInBackground", b =>
@@ -327,7 +327,7 @@ namespace DnDWebApp_CC.Migrations
 
                     b.HasIndex("SkillId");
 
-                    b.ToTable("SkillsInBackgrounds");
+                    b.ToTable("SkillsInBackgrounds", (string)null);
                 });
 
             modelBuilder.Entity("DnDWebApp_CC.Models.Entities.SkillsInCharacter", b =>
@@ -356,7 +356,7 @@ namespace DnDWebApp_CC.Migrations
 
                     b.HasIndex("SkillId");
 
-                    b.ToTable("SkillsInCharacters");
+                    b.ToTable("SkillsInCharacters", (string)null);
                 });
 
             modelBuilder.Entity("DnDWebApp_CC.Models.Entities.SkillsInSpecies", b =>
@@ -379,7 +379,7 @@ namespace DnDWebApp_CC.Migrations
 
                     b.HasIndex("SpeciesId");
 
-                    b.ToTable("SkillsInSpecies");
+                    b.ToTable("SkillsInSpecies", (string)null);
                 });
 
             modelBuilder.Entity("DnDWebApp_CC.Models.Entities.Species", b =>
@@ -404,7 +404,7 @@ namespace DnDWebApp_CC.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Species");
+                    b.ToTable("Species", (string)null);
                 });
 
             modelBuilder.Entity("DnDWebApp_CC.Models.Entities.Spell", b =>
@@ -436,7 +436,7 @@ namespace DnDWebApp_CC.Migrations
 
                     b.HasIndex("DiceDenominationId");
 
-                    b.ToTable("Spells");
+                    b.ToTable("Spells", (string)null);
                 });
 
             modelBuilder.Entity("DnDWebApp_CC.Models.Entities.SpellsInCharacter", b =>
@@ -459,7 +459,7 @@ namespace DnDWebApp_CC.Migrations
 
                     b.HasIndex("SpellId");
 
-                    b.ToTable("SpellsInCharacter");
+                    b.ToTable("SpellsInCharacter", (string)null);
                 });
 
             modelBuilder.Entity("DnDWebApp_CC.Models.Entities.Stat", b =>
@@ -476,7 +476,7 @@ namespace DnDWebApp_CC.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Stats");
+                    b.ToTable("Stats", (string)null);
                 });
 
             modelBuilder.Entity("DnDWebApp_CC.Models.Entities.StatsInCharacter", b =>
@@ -505,7 +505,7 @@ namespace DnDWebApp_CC.Migrations
 
                     b.HasIndex("StatId");
 
-                    b.ToTable("StatsInCharacters");
+                    b.ToTable("StatsInCharacters", (string)null);
                 });
 
             modelBuilder.Entity("DnDWebApp_CC.Models.Entities.Character", b =>
