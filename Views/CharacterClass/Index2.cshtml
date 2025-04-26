@@ -26,6 +26,27 @@
                         <p>
                             @item.Description <br /><br />
                         </p>
+                        <p>
+                            Skills:
+                            <ul>
+                                @foreach (var skill in item.Skills)
+                                {
+                                    <li>@skill.Skill.Name</li>
+                                }
+                            </ul>
+                        </p>
+                        @if (item.Spellcaster)
+                        {
+                            <p>
+                                Spells
+                                <ul>
+                                    @foreach (var spell in item.Spells)
+                                    {
+                                        <li>@spell.Spell.Name</li>
+                                    }
+                                </ul>
+                            </p>
+                        }
                     </div>
                 </span>
             </div>

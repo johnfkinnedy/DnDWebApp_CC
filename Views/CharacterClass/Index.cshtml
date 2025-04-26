@@ -4,8 +4,8 @@
     ViewData["Title"] = "Index";
 }
 
-@section Styles{
-<link rel="stylesheet" href="~/css/hoverNav.css" />
+@section Styles {
+    <link rel="stylesheet" href="~/css/hoverNav.css" />
 }
 <!--
 <p>
@@ -45,65 +45,66 @@ Can cast spells?
 </tr>
 </thead>
 <tbody>
-@foreach (var item in Model) {
-    <tr>
-        <td>
-            <img src="~/images/@(item.Name.ToLower()+".png")"  style=""/>
-        </td>
-        <td>
+@foreach (var item in Model)
+{
+        <tr>
+            <td>
+                <img src="~/images/@(item.Name.ToLower()+".png")"  style=""/>
+            </td>
+            <td>
             @Html.DisplayFor(modelItem => item.Name)
-        </td>
-        <td>
+            </td>
+            <td>
             @Html.DisplayFor(modelItem => item.Description)
-        </td>
-        <td>
+            </td>
+            <td>
             @Html.DisplayFor(modelItem => item.HitDice.Size)
-        </td>
-        <td>
+            </td>
+            <td>
             @Html.DisplayFor(modelItem => item.Spellcaster)
-        </td>
-        <td>
-            <ul>
-                @foreach(var skill in item.Skills)
+            </td>
+            <td>
+                <ul>
+                @foreach (var skill in item.Skills)
                 {
-                    <li>@skill.Skill.Name</li>
+                            <li>@skill.Skill.Name</li>
                 }
-            </ul>
-        </td>
-        <td>
-            <ul>
+                </ul>
+            </td>
+            <td>
+                <ul>
                 @if (item.Spellcaster)
                 {
                     @foreach (var spell in item.Spells)
                     {
-                        @if(spell != null)
+                        @if (spell != null)
                         {
-                            <li>@spell.Spell.Name</li>
+                                            <li>@spell.Spell.Name</li>
                         }
                     }
                 }
-            </ul>
-        </td>
-        <td>
-            <ul>
-                @foreach(var prof in item.Proficiencies)
+                </ul>
+            </td>
+            <td>
+                <ul>
+                @foreach (var prof in item.Proficiencies)
                 {
-                    <li>@prof</li>
+                            <li>@prof</li>
                 }
-            </ul>
-        </td>
-        <td>
-            <ul>
-                @foreach(var feature in item.Features)
+                </ul>
+            </td>
+            <td>
+                <ul>
+                @foreach (var feature in item.Features)
                 {
-                    <li>@feature</li>
+                            <li>@feature</li>
                 }
-            </ul>
-        </td>
-        <td>
-            <a asp-action="Details" asp-route-id="@item.Id">Details</a>
-        </td>
-    </tr>
+                </ul>
+            </td>
+            <td>
+                <a asp-action="Details" asp-route-id="@item.Id">Details</a>
+            </td>
+        </tr>
 }
 </tbody>
 </table>
@@ -125,13 +126,40 @@ Can cast spells?
                         <br />
                         <br />
                         <h1>@item.Name</h1>
-                        <p>@item.Description <br /><br />
+                        <p>
+                            @item.Description <br /><br />
                         </p>
+                        <p>
+                            Skills:
+                            <ul>
+                                @foreach (var skill in item.Skills)
+                                {
+                                    <li>@skill.Skill.Name</li>
+                                }
+                                @if (item.Name == "Bard")
+                                {
+                                    <li>Bards have access to any skills of their choice.</li>
+                                }
+                            </ul>
+
+                        </p>
+                        @if (item.Spellcaster)
+                        {
+                            <p>
+                                Spells
+                                <ul>
+                                    @foreach (var spell in item.Spells)
+                                    {
+                                        <li>@spell.Spell.Name</li>
+                                    }
+                                </ul>
+                            </p>
+                        }
                     </div>
                 </span>
             </div>
         }
-        </div>
+    </div>
 </body>
 
 
