@@ -31,21 +31,24 @@ namespace DnDWebApp_CC.Models.Entities
         /// </summary>
         public string Alignment { get; set; } = string.Empty;
 
+        public int ClassId {  get; set; }  
         /// <summary>
         /// The <see cref="CharacterClass"/> of the Character
         /// </summary>
         public CharacterClass Class { get; set; }
-
+        public int? SecondClassId { get; set; }
         /// <summary>
         /// An optional second <see cref="CharacterClass"/> for the character
         /// </summary>
         public CharacterClass? SecondClass { get; set; }
-        
+
+        public int SpeciesId { get; set; }
         /// <summary>
         /// The <see cref="Species"/> of the character
         /// </summary>
         public Species Species { get; set; }
 
+        public int BackgroundId { get; set; }
         /// <summary>
         /// The <see cref="Background"/> of the character
         /// </summary>
@@ -91,60 +94,7 @@ namespace DnDWebApp_CC.Models.Entities
         /// </summary>
         public ICollection<string> Languages { get; set; } = new List<string>();
 
-        /*
-        public Character(CharacterClass charClass, Background bg, Species species, List<Equipment> equipment)
-        {
-            this.Background = bg;
-            this.Class = charClass;
-            this.Species = species;
-
-
-            //adding spells from the Class if the class is a spellcaster and has spells in its spell list
-            if(charClass.Spellcaster == true && !charClass.Spells.IsNullOrEmpty())
-            {
-                Spells = new List<SpellsInCharacter>();
-                var spells = charClass.Spells;
-                foreach (ClassSpell s in spells)
-                {
-                    var characterSpell = new SpellsInCharacter
-                    {
-                        Spell = s.Spell
-                    };
-                    Spells.Add(characterSpell);
-                }
-            }
-
-            foreach(var bgSkill in bg.Skills)
-            {
-                var characterSkill = new SkillsInCharacter
-                {
-                    Skill = bgSkill.Skill
-                };
-            }
-            
-            foreach(var classSkill in charClass.Skills)
-            {
-                var characterSkill = new SkillsInCharacter
-                {
-                    Skill = classSkill.Skill
-                };
-            }
-            //adding features from class, background
-            Features.AddRange(bg.Features);
-            Features.AddRange(charClass.Features);
-            
-            //adding equipment
-            foreach(var item in equipment)
-            {
-                var charEquipment = new EquipmentInCharacter
-                {
-                    Equipment = item
-                };
-            }
-        }
-
-    
-        */
+        
     }
     /// <summary>
     /// Associative class for <see cref="Equipment"/> used by <see cref="Character"/>s
@@ -310,8 +260,6 @@ namespace DnDWebApp_CC.Models.Entities
         {
 
             //set skill score based on proficiency and skill's base stat score 
-            var characterStat = Character.Stats.FirstOrDefault(s => s.Id == Skill.BaseStat.Id).Score;
-            this.Score = characterStat += Proficiency ? 2 : 0;
 
         }
     }

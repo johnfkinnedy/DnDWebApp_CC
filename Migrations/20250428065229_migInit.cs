@@ -113,7 +113,7 @@ namespace DnDWebApp_CC.Migrations
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Description = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    DiceDenominationId = table.Column<int>(type: "int", nullable: true),
+                    DiceId = table.Column<int>(type: "int", nullable: true),
                     DiceToRoll = table.Column<int>(type: "int", nullable: true),
                     SlotLevel = table.Column<int>(type: "int", nullable: false)
                 },
@@ -121,8 +121,8 @@ namespace DnDWebApp_CC.Migrations
                 {
                     table.PrimaryKey("PK_Spells", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Spells_Dice_DiceDenominationId",
-                        column: x => x.DiceDenominationId,
+                        name: "FK_Spells_Dice_DiceId",
+                        column: x => x.DiceId,
                         principalTable: "Dice",
                         principalColumn: "Id");
                 });
@@ -533,9 +533,9 @@ namespace DnDWebApp_CC.Migrations
                 column: "SpeciesId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Spells_DiceDenominationId",
+                name: "IX_Spells_DiceId",
                 table: "Spells",
-                column: "DiceDenominationId");
+                column: "DiceId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_SpellsInCharacter_CharacterId",

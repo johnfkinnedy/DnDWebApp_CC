@@ -21,6 +21,7 @@ namespace DnDWebApp_CC.Services
     {
         private readonly ApplicationDbContext _db = db;
 
+
         public async Task<CharacterClass> CreateAsync(CharacterClass newClass)
         {
             await _db.CharacterClasses.AddAsync(newClass);
@@ -41,7 +42,7 @@ namespace DnDWebApp_CC.Services
 
         public async Task<ICollection<CharacterClass>> ReadAllAsync()
         {
-            return await _db.CharacterClasses.Include(c => c.Skills)
+            return await _db.CharacterClasses
                 .Include(c => c.Spells)
                     .ThenInclude(s => s.Spell)
                 .Include(c => c.Skills)

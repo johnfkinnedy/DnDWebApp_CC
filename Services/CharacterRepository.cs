@@ -14,14 +14,74 @@ namespace DnDWebApp_CC.Services
 
     //USER-FACING:
     //CREATE, READ, READ-ALL, UPDATE, DELETE
-    public class CharacterRepository(ApplicationDbContext db) : ICharacterRepository
+    public class CharacterRepository(ApplicationDbContext db, IBackgroundRepository bgRepo, ICharacterClassRepository classRepo, ISpeciesRepository speciesRepo) : ICharacterRepository
     {
         private readonly ApplicationDbContext _db = db;
 
+        private readonly IBackgroundRepository _bgRepo = bgRepo;
+        private readonly ISpeciesRepository _speciesRepo = speciesRepo;
+        private readonly ICharacterClassRepository _classRepo = classRepo;
 
         public async Task<Character> CreateAsync(Character character)
         {
             await _db.Characters.AddAsync(character);
+            //assigning class, background, and ID after character is added without them
+            var charClass = await _classRepo.ReadAsync(character.ClassId);
+            var background = await _bgRepo.ReadAsync(character.BackgroundId);
+            var species = await _speciesRepo.ReadAsync(character.SpeciesId);
+            var stats = await _db.Stats.ToListAsync();
+            var skills = await _db.Skills.Include(s => s.BaseStat).ToListAsync();
+
+            //populating spells if the class has them
+            if (charClass.Spellcaster)
+            {
+                foreach(var spell in charClass.Spells)
+                {
+                    character.Spells.Add(new SpellsInCharacter
+                    {
+                        Id = spell.Id,
+                    });
+                }
+            }
+            
+            
+            //populating features
+            foreach(string feature in background.Features) { character.Features.Add(feature); }
+            foreach(string feature in charClass.Features) { character.Features.Add(feature); }
+
+            //populating languages
+            foreach(string language in background.Languages) { character.Languages.Add(language); }
+            foreach(string language in species.Languages) { character.Languages.Add(language); }
+
+            //adding stats, and giving them base values to be changed later (in edit screen)
+            foreach(Stat stat in stats)
+            {
+                character.Stats.Add(new StatsInCharacter { StatId = stat.Id, Score = 10, Proficiency = false});
+            }
+
+
+            //giving character every skill. scores will be set on character update, when scores are ACTUALLY set
+            foreach (Skill skill in skills)
+            {
+                character.Skills.Add(new SkillsInCharacter { Id = skill.Id, Proficiency = false });
+            }
+
+            //but giving them proficiency in the skills perscribed by their class, background, and species
+            foreach (var skill in charClass.Skills)
+            {
+                var profSkill = character.Skills.FirstOrDefault(s => s.Id == skill.Id);
+                profSkill.Proficiency = true;
+            }
+            foreach (var skill in background.Skills)
+            {
+                var profSkill = character.Skills.FirstOrDefault(s => s.Id == skill.Id);
+                profSkill.Proficiency = true;
+            }
+            foreach (var skill in species.Skills)
+            {
+                var profSkill = character.Skills.FirstOrDefault(s => s.Id == skill.Id);
+                profSkill.Proficiency = true;
+            }
             await _db.SaveChangesAsync();
             return character;
         }

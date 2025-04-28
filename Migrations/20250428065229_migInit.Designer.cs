@@ -11,8 +11,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace DnDWebApp_CC.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20250428033636_mig01")]
-    partial class mig01
+    [Migration("20250428065229_migInit")]
+    partial class migInit
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
