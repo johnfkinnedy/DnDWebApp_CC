@@ -1,0 +1,63 @@
+﻿@model DnDWebApp_CC.Models.Entities.Background
+@using DnDWebApp_CC.Models.Entities
+
+@{
+    ViewData["Title"] = "Details";
+}
+
+<h1>Details</h1>
+
+<div>
+    <h4>Equipment</h4>
+    <hr />
+    <dl class="row">
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.Name)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Name)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.Description)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Description)
+        </dd>
+        <dt class = "col-sm-2">
+            Skills
+        </dt>
+        <dd class = "col-sm-10">
+            <ul>
+                @foreach(var skill in Model.Skills)
+                {
+                    <li>@skill.Skill.Name</li>
+                }
+            </ul>
+            </dd>
+        <dt class = "col-sm-2">
+            Languages
+        </dt>
+        <dd class = "col-sm-10">
+            <ul>
+                @foreach(var language in Model.Languages)
+                {
+                    <li>@language</li>
+                }
+            </ul>
+        </dd>
+        <dt class = "col-sm-2">
+            Languages
+        </dt>
+        <dd class = "col-sm-10">
+            <ul>
+                @foreach(var feature in Model.Features)
+                {
+                    <li>@feature</li>
+                }
+            </ul>
+        </dd>
+    </dl>
+</div>
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>

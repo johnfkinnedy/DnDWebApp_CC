@@ -1,6 +1,4 @@
 ﻿using DnDWebApp_CC.Services;
-using Microsoft.Identity.Client;
-using Microsoft.IdentityModel.Tokens;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Text.Json.Serialization;

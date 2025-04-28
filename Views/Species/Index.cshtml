@@ -34,22 +34,7 @@
                 <td>
                     @Html.DisplayFor(modelItem => item.Description)
                 </td>
-                <td>
-                    <ul>
-                        @foreach(var skill in item.Skills)
-                        {
-                           <li>@skill.Skill.Name</li>
-                        }
-                    </ul>
-                </td>
-                <td>
-                    <ul>
-                        @foreach(var language in item.Languages)
-                        {
-                           <li>@language</li>
-                        }
-                    </ul>
-                </td>
+                
             <td>
                 <a asp-action="Details" asp-route-id="@item.Id">Details</a> 
             </td>

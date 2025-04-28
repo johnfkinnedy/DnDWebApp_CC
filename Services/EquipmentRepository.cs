@@ -53,6 +53,7 @@ namespace DnDWebApp_CC.Services
             {
                 eqToUpdate.Id = equipment.Id;
                 eqToUpdate.Name = equipment.Name;
+                eqToUpdate.Description = equipment.Description;
                 await _db.SaveChangesAsync();
             }
         }

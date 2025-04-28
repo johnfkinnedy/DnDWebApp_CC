@@ -11,154 +11,89 @@ using System.Net.Http;
 
 namespace DnDWebApp_CC.Controllers
 {
-    public class BackgroundController : Controller
+    public class BackgroundController(IBackgroundRepository bgRepo) : Controller
     {
-        private readonly ApplicationDbContext _context;
-        private readonly HttpClient _httpClient;
-
-
-        public BackgroundController(ApplicationDbContext context)
-        {
-            _context = context;
-
-            _httpClient = new HttpClient();
-            _httpClient.BaseAddress = new Uri("https://localhost:7130/api/background");
-        }
-
-        // GET: Backgrounds
+        private readonly IBackgroundRepository _bgRepo = bgRepo;
         public async Task<IActionResult> Index()
         {
-            var backgrounds = await _httpClient.GetFromJsonAsync<List<Background>>("/all"); ;
+            var backgrounds = await _bgRepo.ReadAllAsync();
             return View(backgrounds);
         }
-
-        // GET: Backgrounds/Details/5
-        public async Task<IActionResult> Details(int? id)
+        public async Task<IActionResult> Details(int id)
         {
-            if (id == null)
+            var Background = await _bgRepo.ReadAsync(id);
+            if (Background == null)
             {
-                return NotFound();
+                return RedirectToAction("Index");
             }
-
-            var background = await _context.Backgrounds
-                .FirstOrDefaultAsync(m => m.Id == id);
-            if (background == null)
-            {
-                return NotFound();
-            }
-
-            return View(background);
+            return View(Background);
         }
-
-        // GET: Backgrounds/Create
-        public IActionResult Create()
+        public async Task<IActionResult> Create()
         {
             return View();
         }
 
-        // POST: Backgrounds/Create
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Name,Description,Features,Languages")] Background background)
+        public async Task<IActionResult> Create(Background background)
         {
             if (ModelState.IsValid)
             {
-                _context.Add(background);
-                await _context.SaveChangesAsync();
+                await _bgRepo.CreateAsync(background);
                 return RedirectToAction(nameof(Index));
             }
             return View(background);
         }
-
-        // GET: Backgrounds/Edit/5
-        public async Task<IActionResult> Edit(int? id)
+        //new page to test rolls for Backgrounds
+        public async Task<IActionResult> Roll(int id)
         {
-            if (id == null)
+            Background? Background = await _bgRepo.ReadAsync(id);
+            if (Background == null)
             {
-                return NotFound();
+                return RedirectToAction("Details", id);
             }
-
-            var background = await _context.Backgrounds.FindAsync(id);
-            if (background == null)
-            {
-                return NotFound();
-            }
-            return View(background);
+            return View(Background);
         }
 
-        // POST: Backgrounds/Edit/5
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Name,Description,Features,Languages")] Background background)
+        public async Task<IActionResult> GetOneJson(int id)
         {
-            if (id != background.Id)
+            var Background = await _bgRepo.ReadAsync(id);
+            return Json(Background);
+        }
+        public async Task<IActionResult> Edit(int id)
+        {
+            var Background = await _bgRepo.ReadAsync(id);
+            if (Background == null)
             {
-                return NotFound();
+                return RedirectToAction("Index");
             }
-
+            return View(Background);
+        }
+        [HttpPost]
+        public async Task<IActionResult> Edit(Background Background)
+        {
             if (ModelState.IsValid)
             {
-                try
-                {
-                    _context.Update(background);
-                    await _context.SaveChangesAsync();
-                }
-                catch (DbUpdateConcurrencyException)
-                {
-                    if (!BackgroundExists(background.Id))
-                    {
-                        return NotFound();
-                    }
-                    else
-                    {
-                        throw;
-                    }
-                }
-                return RedirectToAction(nameof(Index));
+                await _bgRepo.UpdateAsync(Background.Id, Background);
+                return RedirectToAction("Index");
             }
-            return View(background);
+            return View(Background);
         }
-
-        // GET: Backgrounds/Delete/5
-        public async Task<IActionResult> Delete(int? id)
+        public async Task<IActionResult> Delete(int id)
         {
-            if (id == null)
+            var Background = await _bgRepo.ReadAsync(id);
+            if (Background == null)
             {
-                return NotFound();
+                return RedirectToAction("Index");
             }
-
-            var background = await _context.Backgrounds
-                .FirstOrDefaultAsync(m => m.Id == id);
-            if (background == null)
-            {
-                return NotFound();
-            }
-
-            return View(background);
+            return View(Background);
         }
-
-        // POST: Backgrounds/Delete/5
         [HttpPost, ActionName("Delete")]
-        [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var background = await _context.Backgrounds.FindAsync(id);
-            if (background != null)
-            {
-                _context.Backgrounds.Remove(background);
-            }
-
-            await _context.SaveChangesAsync();
-            return RedirectToAction(nameof(Index));
+            await _bgRepo.DeleteAsync(id);
+            return RedirectToAction("Index");
         }
 
-        private bool BackgroundExists(int id)
-        {
-            return _context.Backgrounds.Any(e => e.Id == id);
-        }
     }
 }
