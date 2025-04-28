@@ -1,10 +1,10 @@
-﻿@model IEnumerable<DnDWebApp_CC.Models.Entities.Spell>
+﻿@model IEnumerable<DnDWebApp_CC.Models.Entities.Character>
 
 @{
     ViewData["Title"] = "Index";
 }
 
-<h1>Spell Index</h1>
+<h1>Index</h1>
 
 <p>
     <a asp-action="Create">Create New</a>
@@ -16,13 +16,7 @@
                 @Html.DisplayNameFor(model => model.Name)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Description)
-            </th>
-            <th>
-                Dice To Roll
-            </th>
-            <th>
-                Spell Slot Level
+                Information
             </th>
             <th></th>
         </tr>
@@ -34,13 +28,7 @@
                 @Html.DisplayFor(modelItem => item.Name)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.Description)
-            </td>
-            <td>
-               @item.DiceToRoll@Html.DisplayFor(modelItem => item.DiceDenomination.Size)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.SlotLevel)
+                @item.Alignment @item.Species.Name @item.Class.Name, level @item.Level
             </td>
             <td>
                 <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |

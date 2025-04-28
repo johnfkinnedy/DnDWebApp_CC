@@ -2,18 +2,19 @@
 @using DnDWebApp_CC.Models.Entities
 
 @{
-    ViewData["Title"] = "Create";
+    ViewData["Title"] = "Edit";
     var allDice = ViewData["allDice"] as List<Dice>;
 }
 
-<h1>Create</h1>
+<h1>Edit</h1>
 
 <h4>Spell</h4>
 <hr />
 <div class="row">
     <div class="col-md-4">
-        <form asp-action="Create">
+        <form asp-action="Edit">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" asp-for="Id" />
             <div class="form-group">
                 <label asp-for="Name" class="control-label"></label>
                 <input asp-for="Name" class="form-control" />
@@ -25,11 +26,6 @@
                 <span asp-validation-for="Description" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="DiceToRoll" class="control-label"></label>
-                <input asp-for="DiceToRoll" class="form-control" />
-                <span asp-validation-for="DiceToRoll" class="text-danger"></span>
-            </div>
-            <div class="form-group">
                 <label asp-for="DiceId" class="control-label"></label>
                 <select asp-for="DiceId" class="form-select">
                     @foreach (var diceSelect in allDice)
@@ -38,14 +34,19 @@
                     }
                 </select>
                 <span asp-validation-for="DiceId" class="text-danger"></span>
-                </div>
+            </div>
+            <div class="form-group">
+                <label asp-for="DiceToRoll" class="control-label"></label>
+                <input asp-for="DiceToRoll" class="form-control" />
+                <span asp-validation-for="DiceToRoll" class="text-danger"></span>
+            </div>
             <div class="form-group">
                 <label asp-for="SlotLevel" class="control-label"></label>
                 <input asp-for="SlotLevel" class="form-control" />
                 <span asp-validation-for="SlotLevel" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <input type="submit" value="Create" class="btn btn-primary" />
+                <input type="submit" value="Save" class="btn btn-primary" />
             </div>
         </form>
     </div>

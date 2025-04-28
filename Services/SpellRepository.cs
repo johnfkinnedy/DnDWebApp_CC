@@ -21,6 +21,9 @@ namespace DnDWebApp_CC.Services
         public async Task<Spell> CreateAsync(Spell newSpell)
         {
             await _db.AddAsync(newSpell);
+
+            var dice = await _db.Dice.FindAsync(newSpell.DiceId);
+            newSpell.DiceDenomination = dice;
             await _db.SaveChangesAsync();
             return newSpell;
         }
@@ -43,13 +46,18 @@ namespace DnDWebApp_CC.Services
 
         public async Task UpdateAsync(int oldId, Spell spell)
         {
+
             Spell? spellToUpdate = await ReadAsync(oldId);
             if (spellToUpdate != null)
             {
+
+
                 spellToUpdate.Id = spell.Id;
                 spellToUpdate.Name = spell.Name;
                 spellToUpdate.Description = spell.Description;
-                spellToUpdate.DiceDenomination = spell.DiceDenomination;
+                spellToUpdate.DiceId = spell.DiceId;
+                var dice = await _db.Dice.FindAsync(spell.DiceId);
+                spell.DiceDenomination = dice; 
                 spellToUpdate.DiceToRoll = spell.DiceToRoll;
                 spellToUpdate.SlotLevel = spell.SlotLevel;
                 await _db.SaveChangesAsync();

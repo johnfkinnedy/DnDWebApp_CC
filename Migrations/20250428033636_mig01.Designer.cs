@@ -11,8 +11,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace DnDWebApp_CC.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20250424211115_migInit")]
-    partial class migInit
+    [Migration("20250428033636_mig01")]
+    partial class mig01
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -422,7 +422,7 @@ namespace DnDWebApp_CC.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int?>("DiceDenominationId")
+                    b.Property<int?>("DiceId")
                         .HasColumnType("int");
 
                     b.Property<int?>("DiceToRoll")
@@ -437,7 +437,7 @@ namespace DnDWebApp_CC.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("DiceDenominationId");
+                    b.HasIndex("DiceId");
 
                     b.ToTable("Spells");
                 });
@@ -699,7 +699,7 @@ namespace DnDWebApp_CC.Migrations
                 {
                     b.HasOne("DnDWebApp_CC.Models.Entities.Dice", "DiceDenomination")
                         .WithMany()
-                        .HasForeignKey("DiceDenominationId");
+                        .HasForeignKey("DiceId");
 
                     b.Navigation("DiceDenomination");
                 });

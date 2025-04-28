@@ -3,6 +3,7 @@ using DnDWebApp_CC.Services;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -10,9 +11,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace DnDWebApp_CC.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20250428031329_migInit")]
+    partial class migInit
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -419,7 +422,7 @@ namespace DnDWebApp_CC.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int?>("DiceId")
+                    b.Property<int?>("DiceDenominationId")
                         .HasColumnType("int");
 
                     b.Property<int?>("DiceToRoll")
@@ -434,7 +437,7 @@ namespace DnDWebApp_CC.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("DiceId");
+                    b.HasIndex("DiceDenominationId");
 
                     b.ToTable("Spells");
                 });
@@ -696,7 +699,7 @@ namespace DnDWebApp_CC.Migrations
                 {
                     b.HasOne("DnDWebApp_CC.Models.Entities.Dice", "DiceDenomination")
                         .WithMany()
-                        .HasForeignKey("DiceId");
+                        .HasForeignKey("DiceDenominationId");
 
                     b.Navigation("DiceDenomination");
                 });

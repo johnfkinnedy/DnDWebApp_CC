@@ -26,6 +26,8 @@ namespace DnDWebApp_CC.Models.Entities
         {
             this.Size = size;
         }
+        public Dice() { }
+
     }
     /// <summary>
     /// Associative class for dice used by spells

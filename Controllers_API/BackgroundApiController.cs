@@ -15,7 +15,7 @@ namespace DnDWebApp_CC.Controllers_API
             _bgRepo = backgroundRepo;
         }
 
-        [HttpGet("all")]
+        [HttpGet("/all")]
         public async Task<IActionResult> GetAll()
         {
             var backgrounds = await _bgRepo.ReadAllAsync();

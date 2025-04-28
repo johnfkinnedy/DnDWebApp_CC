@@ -1,0 +1,95 @@
+﻿@model DnDWebApp_CC.Models.Entities.Character
+@using DnDWebApp_CC.Models.Entities
+
+@{
+    ViewData["Title"] = "Create Character";
+    var classes = ViewData["allClasses"] as List<CharacterClass>;
+    var backgrounds = ViewData["allBackgrounds"] as List<Background>;
+    var species = ViewData["allSpecies"] as List<Species>;
+}
+
+<h1>Create a new Character</h1>
+
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Create">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="Name" class="control-label"></label>
+                <input asp-for="Name" class="form-control" />
+                <span asp-validation-for="Name" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Age" class="control-label"></label>
+                <input asp-for="Age" class="form-control" />
+                <span asp-validation-for="Age" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Alignment" class="control-label"></label>
+                <input asp-for="Alignment" class="form-control" />
+                <span asp-validation-for="Alignment" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="ProficiencyBonus" class="control-label"></label>
+                <input asp-for="ProficiencyBonus" class="form-control" />
+                <span asp-validation-for="ProficiencyBonus" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Level" class="control-label"></label>
+                <input asp-for="Level" class="form-control" />
+                <span asp-validation-for="Level" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Features" class="control-label"></label>
+                <input asp-for="Features" class="form-control" />
+                <span asp-validation-for="Features" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Languages" class="control-label"></label>
+                <input asp-for="Languages" class="form-control" />
+                <span asp-validation-for="Languages" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Class" class="control-label"></label>
+                <select asp-for="Class" class="form-select">
+                    @foreach (var charClass in classes)
+                    {
+                        <option value="@charClass">@charClass.Name</option>
+                    }
+                </select>
+                <span asp-validation-for="Class" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Background" class="control-label"></label>
+                <select asp-for="Background" class="form-select">
+                    @foreach (var background in backgrounds)
+                    {
+                        <option value="@background">@background.Name</option>
+                    }
+                </select>
+                <span asp-validation-for="Background" class="text-danger"></span>
+            <div class="form-group">
+                <label asp-for="Species" class="control-label"></label>
+                <select asp-for="Species" class="form-select">
+                    @foreach (var speciesSelect in species)
+                    {
+                        <option value="@speciesSelect">@speciesSelect.Name</option>
+                    }
+                </select>
+                <span asp-validation-for="Species" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <input type="submit" value="Create" class="btn btn-primary" />
+                </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}
