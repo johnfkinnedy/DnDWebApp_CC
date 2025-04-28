@@ -12,5 +12,15 @@ namespace DnDWebApp_CC.Controllers
             var allSpecies = await _speciesRepo.ReadAllAsync();
             return View(allSpecies);
         }
+
+        public async Task<IActionResult> Details(int id)
+        {
+            var species = await _speciesRepo.ReadAsync(id);
+            if (species == null)
+            {
+                return RedirectToAction("Index");
+            }
+            return View(species);
+        }
     }
 }

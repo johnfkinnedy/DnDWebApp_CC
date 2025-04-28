@@ -18,11 +18,9 @@
             <th>
                 @Html.DisplayNameFor(model => model.Description)
             </th>
-            <th>
-               Skills
+                Skills
             </th>
-            <th>
-               Languages
+                Languages
             </th>
             <th></th>
         </tr>
@@ -40,18 +38,18 @@
                     <ul>
                         @foreach(var skill in item.Skills)
                         {
-                            <li>@skill.Skill.Name</li>
+                           <li>@skill.Skill.Name</li>
                         }
                     </ul>
-            </td>
+                </td>
                 <td>
                     <ul>
                         @foreach(var language in item.Languages)
                         {
-                            <li>@language</li>
+                           <li>@language</li>
                         }
                     </ul>
-            </td>
+                </td>
             <td>
                 <a asp-action="Details" asp-route-id="@item.Id">Details</a> 
             </td>

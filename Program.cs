@@ -85,6 +85,7 @@ namespace DnDWebApp_CC
             app.UseRouting();
 
             app.UseCors();
+            app.UseAuthentication();
 
             app.UseAuthorization();
 
