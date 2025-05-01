@@ -14,4 +14,5 @@ Created by Connor Cole @ ETSU for CSCI-3110
 - Repo code is (mostly) finished
 - Frontend looks better
 - Most controllers work!!
+- Characters can be written to a PDF
 

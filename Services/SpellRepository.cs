@@ -22,9 +22,13 @@ namespace DnDWebApp_CC.Services
         {
             await _db.AddAsync(newSpell);
 
-            var dice = await _db.Dice.FindAsync(newSpell.DiceId);
-            newSpell.DiceDenomination = dice;
-            await _db.SaveChangesAsync();
+            if (newSpell.DiceId != null)
+            {
+                var dice = await _db.Dice.FindAsync(newSpell.DiceId);
+                newSpell.DiceDenomination = dice;
+            }
+            else newSpell.DiceDenomination = null;
+                await _db.SaveChangesAsync();
             return newSpell;
         }
 
@@ -56,8 +60,12 @@ namespace DnDWebApp_CC.Services
                 spellToUpdate.Name = spell.Name;
                 spellToUpdate.Description = spell.Description;
                 spellToUpdate.DiceId = spell.DiceId;
-                var dice = await _db.Dice.FindAsync(spell.DiceId);
-                spell.DiceDenomination = dice; 
+                if (spell.DiceId != null)
+                {
+                    var dice = await _db.Dice.FindAsync(spell.DiceId);
+                    spell.DiceDenomination = dice;
+                }
+                else spell.DiceDenomination = null;
                 spellToUpdate.DiceToRoll = spell.DiceToRoll;
                 spellToUpdate.SlotLevel = spell.SlotLevel;
                 await _db.SaveChangesAsync();

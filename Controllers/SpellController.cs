@@ -32,6 +32,10 @@ namespace DnDWebApp_CC.Controllers
         {
             //context is used so dice is tracked along with spell; using repos complicates things (it tries to make a new dice each time)
             ViewData["allDice"] = await _context.Dice.ToListAsync();
+            foreach(var dice in ViewData["allDice"] as List<Dice>)
+            {
+                Console.WriteLine(dice.Size);
+            }
             return View();
         }
 
@@ -39,8 +43,11 @@ namespace DnDWebApp_CC.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create(Spell spell)
         {
-            if (ModelState.IsValid)
+            ViewData["allDice"] = await _context.Dice.ToListAsync();
+ 
+            if (ModelState.IsValid || spell.DiceId == null)
             {
+                if(spell.DiceId == null) {spell.DiceDenomination = null;}
                 //adding the spell,
                 await _context.Spells.AddAsync(spell);
                 //and saving changes
@@ -78,8 +85,12 @@ namespace DnDWebApp_CC.Controllers
         [HttpPost]
         public async Task<IActionResult> Edit(Spell spell)
         {
-            if (ModelState.IsValid)
+            if (ModelState.IsValid || spell.DiceId == null)
             {
+                if(spell.DiceId == null)
+                {
+                    spell.DiceDenomination = null;
+                }
                 await _spellRepo.UpdateAsync(spell.Id, spell);
                 return RedirectToAction("Index");
             }

@@ -28,6 +28,7 @@
             <div class="form-group">
                 <label asp-for="DiceId" class="control-label"></label>
                 <select asp-for="DiceId" class="form-select">
+                    <option value="null">No dice</option>
                     @foreach (var diceSelect in allDice)
                     {
                         <option value="@diceSelect.Id">@diceSelect.Size</option>

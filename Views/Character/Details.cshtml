@@ -1,0 +1,110 @@
+﻿@model DnDWebApp_CC.Models.Entities.Character
+@using DnDWebApp_CC.Models.Entities
+
+@{
+    ViewData["Title"] = "Details";
+}
+
+<h1>Details</h1>
+
+<div>
+    <h4>Equipment</h4>
+    <hr />
+    <!--Name, Age, Species, Description, Stat list-->
+    <dl class="row">
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Name)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Name)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Age)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Age)
+        </dd>
+        <dt class="col-sm-2">
+            Species
+        </dt>
+        <dd class="col-sm-10">
+            @Model.Species.Name
+        </dd>
+        <dt class="col-sm-2">
+            Details
+        </dt>
+        <!--Alignment, Class, Level (Chaotic Neutral Tiefling Bard 1-->
+        <dd class="col-sm-10">
+            @Model.Alignment @Model.Class.Name @Model.Level
+        </dd>
+        <dt class="col-sm-2">
+            Stats
+        </dt>
+        <dd class="col-sm-10">
+            <ul>
+                @foreach (var stat in Model.Stats)
+                {
+                   <li>
+                        @stat.Stat.Name
+                       <ul>
+                           <li>
+                                @stat.Score
+                           </li>
+                           <li>
+                                Proficiency: @stat.Proficiency
+                           </li>
+                       </ul>
+                   </li>
+                }
+            </ul>
+        </dd>
+    </dl>
+
+    <!--Background, Skills, Features-->
+    <dl class="row">
+        <dt class="col-sm-2">
+            Background
+        </dt>
+        <dd class="col-sm-10">
+            @Model.Background.Name
+        </dd>
+        <dt class="col-sm-2">
+            Skills
+        </dt>
+        <dd class="col-sm-10">
+            <ul>
+                <ul>
+                    @foreach (var skill in Model.Skills.OrderBy(s => s.Skill.Name))
+                    {
+                        <li>
+                            @skill.Skill.Name
+                            <ul>
+                                <li>
+                                    @skill.Score
+                                </li>
+                                <li>
+                                    Proficiency: @skill.Proficiency
+                                </li>
+                            </ul>
+                        </li>
+                    }
+            </ul>
+        </dd>
+        <dt class="col-sm-2">
+            Features
+        </dt>
+        <dd class="col-sm-10">
+            <ul>
+                @foreach (var feature in Model.Features)
+                {
+                    <li>@feature</li>
+                }
+            </ul>
+        </dd>
+    </dl>
+</div>
+<div>
+    <a asp-action="Edit" asp-route-id="@Model?.Id">Edit</a> |
+    <a asp-action="CreatePdf" asp-route-id="@Model?.Id">Send to PDF</a> |
+    <a asp-action="Index">Back to List</a>
+</div>
