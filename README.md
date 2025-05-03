@@ -17,8 +17,6 @@ Created by Connor Cole @ ETSU for CSCI-3110
 # When Cloning:
   - Run Add-Migration and Update-Database to ensure database is updated
 
-# TO-DO
-- Finish XML comments and add comments across board
 
 # FINISHED
 - Database works
