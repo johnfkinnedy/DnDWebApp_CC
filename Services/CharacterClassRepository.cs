@@ -47,6 +47,7 @@ namespace DnDWebApp_CC.Services
                     .ThenInclude(s => s.Spell)
                 .Include(c => c.Skills)
                     .ThenInclude(s => s.Skill)
+                    .ThenInclude(s => s.BaseStat)
                 .Include(c => c.HitDice)
                 .ToListAsync();
           

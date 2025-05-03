@@ -8,23 +8,23 @@ namespace DnDWebApp_CC.Controllers_API
     [EnableCors]
     [Route("api/[controller]")]
     [ApiController]
-    public class BackgroundController : Controller
+    public class ClassController : Controller
     {
-        private readonly IBackgroundRepository _bgRepo;
-        public BackgroundController(IBackgroundRepository backgroundRepo)
+        private readonly ICharacterClassRepository _classRepo;
+        public ClassController(ICharacterClassRepository classRepo)
         {
-            _bgRepo = backgroundRepo;
+            _classRepo = classRepo;
         }
 
         [HttpGet("all")]
         public async Task<IActionResult> GetAll()
         {
-            return Ok(await _bgRepo.ReadAllAsync());
+            return Ok(await _classRepo.ReadAllAsync());
         }
-        [HttpGet("/one/{id}")]
+        [HttpGet("one/{id}")]
         public async Task<IActionResult> GetOne(int id)
         {
-            var background = await _bgRepo.ReadAsync(id);
+            var background = await _classRepo.ReadAsync(id);
             if (background == null)
             {
                 return NotFound();
@@ -33,23 +33,23 @@ namespace DnDWebApp_CC.Controllers_API
         }
 
         [HttpPost("create")]
-        public async Task<IActionResult> Post([FromForm] Background background)
+        public async Task<IActionResult> Post([FromForm] CharacterClass charClass)
         {
-            await _bgRepo.CreateAsync(background);
-            return CreatedAtAction("Get", new { id = background.Id }, background);
+            await _classRepo.CreateAsync(charClass);
+            return CreatedAtAction("Get", new { id = charClass.Id }, charClass);
         }
 
         [HttpPut("update")]
-        public async Task<IActionResult> Put([FromForm] Background background)
+        public async Task<IActionResult> Put([FromForm] CharacterClass charClass)
         {
-            await _bgRepo.UpdateAsync(background.Id, background);
+            await _classRepo.UpdateAsync(charClass.Id, charClass);
             return NoContent();
         }
 
         [HttpDelete("delete/{id}")]
         public async Task<IActionResult> Delete(int id)
         {
-            await _bgRepo.DeleteAsync(id);
+            await _classRepo.DeleteAsync(id);
             return NoContent();
         }
        
