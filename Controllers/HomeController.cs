@@ -20,6 +20,7 @@ public class HomeController : Controller
 
     public async Task<IActionResult> Index()
     {
+        //passing in counts for all major tables to be shown on homepage
         ViewData["characterCount"] = await _db.Characters.CountAsync();
         ViewData["speciesCount"] = await _db.Species.CountAsync();
         ViewData["classCount"] = await _db.CharacterClasses.CountAsync();
@@ -39,12 +40,5 @@ public class HomeController : Controller
     public IActionResult Error()
     {
         return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
-    }
-}
-public static class ClassThatDoesExtraStuff
-{
-    public static int GetTotals()
-    {
-        return 1;
     }
 }

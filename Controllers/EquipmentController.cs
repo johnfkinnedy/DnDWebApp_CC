@@ -20,11 +20,8 @@ namespace DnDWebApp_CC.Controllers
         public async Task<IActionResult> Details(int id)
         {
             var equipment = await _equipmentRepo.ReadAsync(id);
+            //passing in the characters that use the equipment to display on details page
             ViewData["usedByCharacters"] = await _context.EquipmentInCharacters.Where(e => e.EquipmentId == id).Include(e => e.Character).ToListAsync();
-            foreach (var character in ViewData["usedByCharacters"] as List<EquipmentInCharacter>)
-            {
-                Console.WriteLine(character.Character.Name);
-            }
             if (equipment == null)
             {
                 return RedirectToAction("Index");
@@ -84,6 +81,7 @@ namespace DnDWebApp_CC.Controllers
             return RedirectToAction("Index");
         }
 
+        //assign an equipment item to a character
         public async Task<IActionResult> AssignCharacter([Bind(Prefix = "id")] int equipmentId, int characterId)
         {
             bool success = await _equipmentRepo.AssignCharacterAsync(equipmentId, characterId);

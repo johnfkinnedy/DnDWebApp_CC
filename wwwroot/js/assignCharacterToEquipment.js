@@ -4,21 +4,26 @@ const assignCharacterModal = new bootstrap.Modal(assignCharacterModalDOM);
 
 const buttons = document.querySelectorAll("a.btn-warning");
 
+//adding event listener to each button 
 buttons.forEach(button => {
     button.addEventListener("click", function (event) {
         event.preventDefault();
+        //does not navigate to page, but graps href and sets equipment ID
         let href = button.getAttribute("href");
         button.dataset.equipmentId = href.split("/Equipment/AssignCharacter/")[1];
+        //when button is clicked, modal is shown
         assignCharacterModal.show();
         populateCharacters(allCharacters, button.dataset.equipmentId);
     })
 })
 
+//function to hide modal
 let closeButton = document.getElementById("btnAssignCharacterClose");
 closeButton.addEventListener("click", function () {
     assignCharacterModal.hide();
 })
 
+//gets all characters
 async function getAllCharacters() {
     const url = "https://localhost:7130/api/character/all";
     try {
@@ -34,6 +39,7 @@ async function getAllCharacters() {
 }
 const allCharacters = await getAllCharacters();
 
+//populates characters into modal
 function populateCharacters(characters, equipmentId) {
     //getting table
     let characterTableBody = document.getElementById("characterTableBody");
@@ -66,6 +72,7 @@ function populateCharacters(characters, equipmentId) {
         newTd.appendChild(assignBtn);
         newTr.appendChild(newTd);
 
+        //adds a button and an event listener to assign character to equipment when clicked
         assignBtn.addEventListener("click", async (event) => {
             event.preventDefault();
             console.log(assignBtn.dataset.characterId);
@@ -85,7 +92,7 @@ function populateCharacters(characters, equipmentId) {
     })
 
 }
-
+//assigning character to equipment
 async function assignCharacterToEquipment(equipmentId, characterId) {
     let sendUrl = `https://localhost:7130/equipment/assigncharacter/${equipmentId}/${characterId}`;
     console.log(sendUrl);
