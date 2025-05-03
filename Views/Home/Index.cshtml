@@ -1,1 +1,59 @@
-﻿<th>Index</th>
+﻿@{
+    ViewData["Title"] = "Landing Page";
+    int characterCount = (int)ViewData["characterCount"];
+    int speciesCount = (int)ViewData["speciesCount"];
+    int classCount = (int)ViewData["classCount"];
+    int bgCount = (int)ViewData["backgroundCount"];
+    int spellCount = (int)ViewData["spellCount"];
+    int equipmentCount = (int)ViewData["equipmentCount"];
+}
+
+<h1 >Dungeons and Dragons Web App</h1>
+
+<div class="container-fluid p-3 my-3 bg-dark text-white" style="display: flex;">
+    <div class="container-sm">
+        <p>
+            This app serves as a place where you can manage your characters for Dungeons and Dragons. You can assign them classes, backgrounds, and species,
+            and create spells to be referred back to during gameplay. <br /> 
+            In the details section for each spell, if it has dice that can be rolled, you can try them out!
+            This roll function shows the average roll for x dice of y size, and you can do sample rolls. Just don't forget to add your modifier! <br />
+            Most pages look pretty similar, but the character class page has a hover menu so you can see data about the classes in a different format rather than just a table.
+            Also, when creating a character, their skills will automatically populate their proficiency based on your chosen class, species, and background. Enjoy!
+        </p>
+    </div>
+    <table class="table table-dark">
+        <tr>
+            <th>
+                Element
+            </th>
+            <th>
+                Number existing in program
+            </th>
+        </tr>
+        <tr>
+            <td>Characters</td>@if(characterCount == 0)
+            {
+                <td>No characters exist - go add one!</td>
+            }
+            else
+            {
+                <td>@characterCount</td>
+            }
+        </tr>
+            <tr>
+                <td>Species</td> <td>@speciesCount</td>
+            </tr>
+            <tr>
+                <td>Classes</td> <td>@classCount</td>
+            </tr>
+            <tr>
+                <td>Backgrounds</td> <td>@bgCount</td>
+            </tr>
+            <tr>
+                <td>Spells</td> <td>@spellCount</td>
+            </tr>
+            <tr>
+                <td>Equipment</td> <td>@equipmentCount</td>
+            </tr>
+        </table>
+</div>

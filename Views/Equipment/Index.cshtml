@@ -33,9 +33,20 @@
             <td>
                 <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
                 <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
+
+                    <a class="btn btn-warning" asp-action="AssignCharacter" asp-controller="Equipment" asp-route-id="@item.Id">
+                        Assign To Character
+                    </a>
                 <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
             </td>
         </tr>
 }
     </tbody>
 </table>
+
+<partial name="_AssignCharacterModal" />
+
+
+@section Scripts{
+    <script src="~/js/assignCharacterToEquipment.js" type="module"></script>
+}

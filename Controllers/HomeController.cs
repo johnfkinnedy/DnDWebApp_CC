@@ -1,20 +1,32 @@
 using System.Diagnostics;
 using Microsoft.AspNetCore.Mvc;
 using DnDWebApp_CC.Models;
+using DnDWebApp_CC.Services;
+using System.Threading.Tasks;
+using Microsoft.EntityFrameworkCore;
 
 namespace DnDWebApp_CC.Controllers;
 
 public class HomeController : Controller
 {
     private readonly ILogger<HomeController> _logger;
+    private readonly ApplicationDbContext _db;
 
-    public HomeController(ILogger<HomeController> logger)
+    public HomeController(ILogger<HomeController> logger, ApplicationDbContext db)
     {
         _logger = logger;
+        _db = db;
     }
 
-    public IActionResult Index()
+    public async Task<IActionResult> Index()
     {
+        ViewData["characterCount"] = await _db.Characters.CountAsync();
+        ViewData["speciesCount"] = await _db.Species.CountAsync();
+        ViewData["classCount"] = await _db.CharacterClasses.CountAsync();
+        ViewData["backgroundCount"] = await _db.Backgrounds.CountAsync();
+        ViewData["spellCount"] = await _db.Spells.CountAsync();
+        ViewData["classCount"] = await _db.CharacterClasses.CountAsync();
+        ViewData["equipmentCount"] = await _db.Equipment.CountAsync();
         return View();
     }
 

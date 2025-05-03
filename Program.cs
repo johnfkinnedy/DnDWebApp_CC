@@ -26,7 +26,7 @@ namespace DnDWebApp_CC
                 options.AddDefaultPolicy(
                 builder =>
                 {
-                    builder.WithOrigins("https://web.postman.co")
+                    builder.WithOrigins("https://web.postman.co", "https://localhost:7130")
                 .AllowAnyHeader()
                 .AllowAnyMethod();
                 });
@@ -91,7 +91,7 @@ namespace DnDWebApp_CC
 
             app.MapControllerRoute(
                 name: "default",
-                pattern: "{controller=Home}/{action=Index}/{id?}");
+                pattern: "{controller=Home}/{action=Index}/{id?}/{characterId?}");
 
             app.Run();
         }
