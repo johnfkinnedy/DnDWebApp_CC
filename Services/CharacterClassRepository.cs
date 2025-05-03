@@ -3,6 +3,9 @@ using Microsoft.EntityFrameworkCore;
 
 namespace DnDWebApp_CC.Services
 {
+    /// <summary>
+    /// Interface for a Character Class Repository
+    /// </summary>
     public interface ICharacterClassRepository
     {
         Task<ICollection<CharacterClass>> ReadAllAsync();
@@ -17,11 +20,21 @@ namespace DnDWebApp_CC.Services
 
     //BACKEND:
     // CREATE, UPDATE, DELETE
+
+    /// <summary>
+    /// Implementation of <see cref="ICharacterClassRepository"/>
+    /// </summary>
+    /// <param name="db">The database context</param>
     public class CharacterClassRepository(ApplicationDbContext db) : ICharacterClassRepository
     {
         private readonly ApplicationDbContext _db = db;
 
 
+        /// <summary>
+        /// Creates a new character class
+        /// </summary>
+        /// <param name="newClass">the character class to be added </param>
+        /// <returns>the class that was just added</returns>
         public async Task<CharacterClass> CreateAsync(CharacterClass newClass)
         {
             await _db.CharacterClasses.AddAsync(newClass);
@@ -30,6 +43,11 @@ namespace DnDWebApp_CC.Services
 
         }
 
+        /// <summary>
+        /// Deletes a class from the context
+        /// </summary>
+        /// <param name="id">the id of the class to be deleted</param>
+        /// <returns>nothing</returns>
         public async Task DeleteAsync(int id)
         {
             CharacterClass? classToDelete = await ReadAsync(id);
@@ -40,6 +58,10 @@ namespace DnDWebApp_CC.Services
             }
         }
 
+        /// <summary>
+        /// Reads all classes from the database
+        /// </summary>
+        /// <returns>a list of all classes</returns>
         public async Task<ICollection<CharacterClass>> ReadAllAsync()
         {
             return await _db.CharacterClasses
@@ -53,6 +75,11 @@ namespace DnDWebApp_CC.Services
           
         }
 
+        /// <summary>
+        /// Reads a single class from the database
+        /// </summary>
+        /// <param name="id">the id of the class to be read</param>
+        /// <returns>the class, or null if it isnt found</returns>
         public async Task<CharacterClass?> ReadAsync(int id)
         {
             return await _db.CharacterClasses.Include(c => c.Skills)
@@ -64,6 +91,12 @@ namespace DnDWebApp_CC.Services
                 .FirstOrDefaultAsync(c => c.Id == id);
         }
 
+        /// <summary>
+        /// Updates a class
+        /// </summary>
+        /// <param name="oldId">the id of the class to be updated</param>
+        /// <param name="characterClass">the updated class</param>
+        /// <returns>nothing</returns>
         public async Task UpdateAsync(int oldId, CharacterClass characterClass)
         {
             CharacterClass? classToUpdate = await ReadAsync(oldId);

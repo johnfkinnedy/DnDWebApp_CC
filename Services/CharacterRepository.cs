@@ -9,6 +9,9 @@ using Microsoft.Identity.Client;
 
 namespace DnDWebApp_CC.Services
 {
+    /// <summary>
+    /// Interface for the character repository
+    /// </summary>
     public interface ICharacterRepository
     {
         Task<ICollection<Character>> ReadAllAsync();
@@ -22,6 +25,13 @@ namespace DnDWebApp_CC.Services
 
     //USER-FACING:
     //CREATE, READ, READ-ALL, UPDATE, DELETE
+    /// <summary>
+    /// Implementation of <see cref="ICharacterRepository"/>
+    /// </summary>
+    /// <param name="db">the database to be used</param>
+    /// <param name="bgRepo">background repo</param>
+    /// <param name="classRepo">class repo</param>
+    /// <param name="speciesRepo">species repo</param>
     public class CharacterRepository(ApplicationDbContext db, IBackgroundRepository bgRepo, ICharacterClassRepository classRepo, ISpeciesRepository speciesRepo) : ICharacterRepository
     {
         private readonly ApplicationDbContext _db = db;
@@ -30,10 +40,15 @@ namespace DnDWebApp_CC.Services
         private readonly ISpeciesRepository _speciesRepo = speciesRepo;
         private readonly ICharacterClassRepository _classRepo = classRepo;
 
+        /// <summary>
+        /// Creates a new character
+        /// </summary>
+        /// <param name="character">the character to be added</param>
+        /// <returns>a copy of the created character</returns>
         public async Task<Character> CreateAsync(Character character)
         {
             await _db.Characters.AddAsync(character);
-            //assigning class, background, and ID after character is added without them
+            //assigning class, background, and species after character is added without them
             var charClass = await _classRepo.ReadAsync(character.ClassId);
             var background = await _bgRepo.ReadAsync(character.BackgroundId);
             var species = await _speciesRepo.ReadAsync(character.SpeciesId);
@@ -94,6 +109,11 @@ namespace DnDWebApp_CC.Services
             return character;
         }
 
+        /// <summary>
+        /// Deletes a specified character
+        /// </summary>
+        /// <param name="id">the character to be deleted</param>
+        /// <returns>nothing</returns>
         public async Task DeleteAsync(int id)
         {
             Character? charToDelete = await ReadAsync(id);
@@ -103,7 +123,10 @@ namespace DnDWebApp_CC.Services
                 await _db.SaveChangesAsync();
             }
         }
-
+        /// <summary>
+        /// Reads all characters from the database
+        /// </summary>
+        /// <returns>a collection of all characters</returns>
         public async Task<ICollection<Character>> ReadAllAsync()
         {
             return await _db.Characters
@@ -128,6 +151,11 @@ namespace DnDWebApp_CC.Services
                 .ToListAsync();
         }
 
+        /// <summary>
+        /// Reads a single character from the database
+        /// </summary>
+        /// <param name="id">the id of the character to be read</param>
+        /// <returns>a character, or null if it wasn't found</returns>
         public async Task<Character?> ReadAsync(int id)
         {
             return await _db.Characters
@@ -154,6 +182,12 @@ namespace DnDWebApp_CC.Services
 
         }
 
+        /// <summary>
+        /// Updates a character
+        /// </summary>
+        /// <param name="oldId">the id of the character to be updated</param>
+        /// <param name="character">the updated character</param>
+        /// <returns>nothing</returns>
         public async Task UpdateAsync(int oldId, Character character)
         {
             Character? charToUpdate = await ReadAsync(oldId);
@@ -188,17 +222,29 @@ namespace DnDWebApp_CC.Services
                 await _db.SaveChangesAsync();
             }
         }
+        
+        /// <summary>
+        /// Creates a PDF from a character
+        /// </summary>
+        /// <param name="characterId"></param>
+        /// <returns>a byte array, which corresponds to the pdf, or nothing if there isn't a character</returns>
         public async Task<byte[]> CreatePdf(int characterId)
         {
+            //Reads the character, and only proceeds if it isn't null
             var character = await ReadAsync(characterId);
             if (character != null)
             {
                 using var memoryStream = new MemoryStream();
+                //pdf writer which writes to the memory stream
                 var writer = new PdfWriter(memoryStream);
+                //creating a new pdf document using the writer
                 var pdf = new PdfDocument(writer);
+                //setting page size
                 pdf.SetDefaultPageSize(PageSize.LETTER);
+                //creating new document
                 var document = new Document(pdf);
 
+                //table with 2 columns, 100% width
                 var table = new Table(2);
                 table.SetWidth(UnitValue.CreatePercentValue(100));
 
@@ -224,6 +270,7 @@ namespace DnDWebApp_CC.Services
                 table.SetMarginBottom(20);
                 document.Add(table);
 
+                //stats table
                 document.Add(new Paragraph().Add("Stats:"));
                 var statTable = new Table(3);
                 statTable.SetMarginBottom(20);
@@ -239,6 +286,7 @@ namespace DnDWebApp_CC.Services
                 }
                 document.Add(statTable);
 
+                //skills table
                 document.Add(new Paragraph().Add("Skills:"));
                 var skillTable = new Table(3);
                 skillTable.SetMarginBottom(20);
@@ -255,6 +303,7 @@ namespace DnDWebApp_CC.Services
 
                 document.Add(skillTable);
 
+                //spells table, if the character has spells
                 if (character.Spells.Count < 0)
                 {
                     document.Add(new Paragraph().Add("Spells:"));
@@ -280,7 +329,7 @@ namespace DnDWebApp_CC.Services
                     document.Add(spellTable);
                 }
 
-
+                //features table
                 document.Add(new Paragraph().Add("Features:"));
                 foreach(var feature in character.Features)
                 {
@@ -293,8 +342,10 @@ namespace DnDWebApp_CC.Services
                     document.Add(new Paragraph().Add(language));
                 }
                 
+                //closing the document
                 document.Close();
 
+                //and returning the memory stream w/ the document inside
                 return memoryStream.ToArray();
             }
             return null;

@@ -13,18 +13,30 @@ namespace DnDWebApp_CC.Services
         {
             _db = db;
         }
+
+        /// <summary>
+        /// Gets a skill from a name
+        /// </summary>
+        /// <param name="skillName">the name of the skill</param>
+        /// <returns>a skill</returns>
         public async Task<Skill> GetSkill(string skillName)
         {
             return await _db.Skills.FirstAsync(s => s.Name == skillName);
         }
+
+        /// <summary>
+        /// Gets a spell from a name
+        /// </summary>
+        /// <param name="spellName">the name of the spell</param>
+        /// <returns>a spell</returns>
         public async Task<Spell> GetSpell(string spellName)
         {
             return await _db.Spells.FirstAsync(s => s.Name.ToLower() == spellName.ToLower());
         }
-        public void EnsureDataHasCorrectAttributes()
-        {
-            _db.Database.EnsureCreated();
-        }
+        /// <summary>
+        /// Seeds the dice
+        /// </summary>
+        /// <returns></returns>
         public async Task SeedDiceAsync()
         {
             _db.Database.EnsureCreated();
@@ -45,6 +57,10 @@ namespace DnDWebApp_CC.Services
             await _db.SaveChangesAsync();
         }
 
+        /// <summary>
+        /// Seeds the stats
+        /// </summary>
+        /// <returns></returns>
         public async Task SeedStatsAsync()
         {
             _db.Database.EnsureCreated();
@@ -64,6 +80,11 @@ namespace DnDWebApp_CC.Services
             await _db.Stats.AddRangeAsync(stats);
             await _db.SaveChangesAsync();
         }
+
+        /// <summary>
+        /// Seeds the skills
+        /// </summary>
+        /// <returns></returns>
         public async Task SeedSkillsAsync()
         {
             _db.Database.EnsureCreated();
@@ -203,6 +224,11 @@ namespace DnDWebApp_CC.Services
             await _db.SaveChangesAsync();
         }
         
+
+        /// <summary>
+        /// Seeds spells
+        /// </summary>
+        /// <returns></returns>
         public async Task SeedSpellsAsync()
         {
             _db.Database.EnsureCreated();
@@ -294,6 +320,10 @@ namespace DnDWebApp_CC.Services
             await _db.SaveChangesAsync();
         }
         
+        /// <summary>
+        /// Seeds backgrounds
+        /// </summary>
+        /// <returns></returns>
         public async Task SeedBackgroundsAsync()
         {
             _db.Database.EnsureCreated();
@@ -610,6 +640,10 @@ namespace DnDWebApp_CC.Services
             await _db.SaveChangesAsync();
         }
 
+        /// <summary>
+        /// Seeds species
+        /// </summary>
+        /// <returns></returns>
         public async Task SeedSpeciesAsync()
         {
             _db.Database.EnsureCreated();
@@ -643,6 +677,10 @@ namespace DnDWebApp_CC.Services
             await _db.SaveChangesAsync();
         }
 
+        /// <summary>
+        /// Seeds classes
+        /// </summary>
+        /// <returns></returns>
         public async Task SeedClassesAsync()
         {
             _db.Database.EnsureCreated();

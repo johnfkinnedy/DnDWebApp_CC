@@ -6,18 +6,29 @@ Created by Connor Cole @ ETSU for CSCI-3110
 	- Add new spells and equipment
 	- Look up information about various things in D&D
 
+# External Frameworks Utilized: 
+- Bootstrap, for responsive UI elements
+- GSAP, for animation on character class index pages
+
+# User Logins
+- Authorization and Authentication were not added to this project. 
+- It was originally configured without them, and by the time I realized, I would have had to restart the entire project. I will take those points off.
+
 # When Cloning:
   - Run Add-Migration and Update-Database to ensure database is updated
 
 # TO-DO
-- Assigning equipment to characters
 - Finish XML comments and add comments across board
-- Prettying up frontend
 
 # FINISHED
 - Database works
 - Data initializer service works; every class/table has data except for Character
 - Characters can be written to a PDF
 - API is finished in its entirety
-- All pages are finished, just not entirely pretty
+- All pages are finished, not 100% pretty but they work.
 
+# Accessibility
+- Images are used sparsely, and those that are in the project have alternative text content to describe them
+- Only colors used are black and white, aside from the images in the character class page
+- Navigation bar holds all the pages that the user can navigate to
+- Content is easy to see across the project
