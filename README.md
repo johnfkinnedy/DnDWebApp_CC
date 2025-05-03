@@ -8,8 +8,12 @@ Created by Connor Cole @ ETSU for CSCI-3110
 
 # External Frameworks Utilized: 
 - Bootstrap, for responsive UI elements
+- iText, for PDF generation
 - GSAP, for animation on character class index pages
 
+# AI Disclosure
+- AI was not used in this project.
+  
 # User Logins
 - Authorization and Authentication were not added to this project. 
 - It was originally configured without them, and by the time I realized, I would have had to restart the entire project. I will take those points off.
