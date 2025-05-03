@@ -149,6 +149,22 @@ namespace DnDWebApp_CC.Controllers
             }
         }
 
+        public async Task<IActionResult> Delete(int id)
+        {
+            var character = await _characterRepo.ReadAsync(id);
+            if (character == null)
+            {
+                return RedirectToAction("Index");
+            }
+            return View(character);
+        }
+        [HttpPost, ActionName("Delete")]
+        public async Task<IActionResult> DeleteConfirmed(int id)
+        {
+            await _characterRepo.DeleteAsync(id);
+            return RedirectToAction("Index");
+        }
+
         //code adapted from: https://stackoverflow.com/questions/76576908/how-to-generate-pdf-in-net-core-using-itext7-library
         public async Task<FileContentResult> CreatePdf(int id)
         {

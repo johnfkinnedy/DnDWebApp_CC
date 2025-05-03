@@ -47,7 +47,7 @@ namespace DnDWebApp_CC.Controllers_API
         }
 
         [HttpDelete("delete/{id}")]
-        public async Task<IActionResult> Delete(int id)
+        public async Task<IActionResult> DeleteApi(int id)
         {
             await _bgRepo.DeleteAsync(id);
             return NoContent();
