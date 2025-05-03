@@ -7,110 +7,6 @@
 @section Styles {
     <link rel="stylesheet" href="~/css/hoverNav.css" />
 }
-<!--
-<p>
-<a asp-action="Create">Create New</a>
-</p>
-<table class="table">
-<thead>
-<tr>
-<th>
-
-</th>
-<th>
-@Html.DisplayNameFor(model => model.Name)
-</th>
-<th>
-@Html.DisplayNameFor(model => model.Description)
-</th>
-<th>
-Hit Dice
-</th>
-<th>
-Can cast spells?
-</th>
-<th>
-@Html.DisplayNameFor(model => model.Skills)
-</th>
-<th>
-@Html.DisplayNameFor(model => model.Spells)
-</th>
-<th>
-@Html.DisplayNameFor(model => model.Proficiencies)
-</th>
-<th>
-@Html.DisplayNameFor(model => model.Features)
-</th>
-<th></th>
-</tr>
-</thead>
-<tbody>
-@foreach (var item in Model)
-{
-        <tr>
-            <td>
-                <img src="~/images/@(item.Name.ToLower()+".png")"  style=""/>
-            </td>
-            <td>
-            @Html.DisplayFor(modelItem => item.Name)
-            </td>
-            <td>
-            @Html.DisplayFor(modelItem => item.Description)
-            </td>
-            <td>
-            @Html.DisplayFor(modelItem => item.HitDice.Size)
-            </td>
-            <td>
-            @Html.DisplayFor(modelItem => item.Spellcaster)
-            </td>
-            <td>
-                <ul>
-                @foreach (var skill in item.Skills)
-                {
-                            <li>@skill.Skill.Name</li>
-                }
-                </ul>
-            </td>
-            <td>
-                <ul>
-                @if (item.Spellcaster)
-                {
-                    @foreach (var spell in item.Spells)
-                    {
-                        @if (spell != null)
-                        {
-                                            <li>@spell.Spell.Name</li>
-                        }
-                    }
-                }
-                </ul>
-            </td>
-            <td>
-                <ul>
-                @foreach (var prof in item.Proficiencies)
-                {
-                            <li>@prof</li>
-                }
-                </ul>
-            </td>
-            <td>
-                <ul>
-                @foreach (var feature in item.Features)
-                {
-                            <li>@feature</li>
-                }
-                </ul>
-            </td>
-            <td>
-                <a asp-action="Details" asp-route-id="@item.Id">Details</a>
-            </td>
-        </tr>
-}
-</tbody>
-</table>
--->
-
-
 <body>
     <button class="btn btn-outline-light" id="classBtnTwo">Switch class set to  1</button>
     <button class="btn btn-outline-light" id="classBtnOne">Switch class set to 2</button>
@@ -164,6 +60,6 @@ Can cast spells?
 
 
 @section Scripts {
-    <script src="~/lib/gsap/all.js" type="module"></script>
+    <script src="~/lib/gsap/index.js" type="module"></script>
     <script src="~/js/classIndex.js" type="module"></script>
 }

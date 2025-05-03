@@ -1,5 +1,5 @@
 ﻿"use strict";
-import {gsap} from "../lib/gsap/all.js"
+import {gsap} from "../lib/gsap/index.js"
 const mainContainer = document.querySelector(".main-container"),
     imagePreview = mainContainer.querySelectorAll(".image-preview"),
     images = mainContainer.querySelectorAll(".image-preview img"),
